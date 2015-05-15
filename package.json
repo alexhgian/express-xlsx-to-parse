@@ -15,6 +15,7 @@
     "multer": "^0.1.8",
     "parse": "^1.4.2",
     "serve-favicon": "~2.2.0",
+    "xlsx": "^0.8.0",
     "xlsx-to-json": "^0.2.3"
   }
 }
