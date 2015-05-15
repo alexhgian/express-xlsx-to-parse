@@ -4,25 +4,25 @@ var XLSX = require('xlsx');
 var Parse = require('parse').Parse;
 /* GET users listing. */
 router.get('/', function(req, res, next){
-    // if(typeof require !== 'undefined') XLSX = require('xlsx');
-    Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
-    // Simple syntax to create a new subclass of Parse.Object.
-    var Attendee = Parse.Object.extend("Attendee");
-
-    // Create a new instance of that class.
-    var attendee = new Attendee();
-    attendee.set("name", 'alex1234');
-    attendee.save(null, {
-        success: function(gameScore) {
-            // Execute any logic that should take place after the object is saved.
-            console.log('New object created with objectId: ' + gameScore.id);
-        },
-        error: function(gameScore, error) {
-            // Execute any logic that should take place if the save fails.
-            // error is a Parse.Error with an error code and message.
-            console.log('Failed to create new object, with error code: ' + error.message);
-        }
-    });
+    // // if(typeof require !== 'undefined') XLSX = require('xlsx');
+    // Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
+    // // Simple syntax to create a new subclass of Parse.Object.
+    // var Attendee = Parse.Object.extend("Attendee");
+    //
+    // // Create a new instance of that class.
+    // var attendee = new Attendee();
+    // attendee.set("name", 'alex1234');
+    // attendee.save(null, {
+    //     success: function(gameScore) {
+    //         // Execute any logic that should take place after the object is saved.
+    //         console.log('New object created with objectId: ' + gameScore.id);
+    //     },
+    //     error: function(gameScore, error) {
+    //         // Execute any logic that should take place if the save fails.
+    //         // error is a Parse.Error with an error code and message.
+    //         console.log('Failed to create new object, with error code: ' + error.message);
+    //     }
+    // });
 
     res.sendStatus(200);
 });
