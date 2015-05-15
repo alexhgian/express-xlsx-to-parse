@@ -86,7 +86,7 @@ router.post('/api/import/', function(req, res, next) {
                     console.log('Failed to create new object, with error code: ' + error.message);
                 }
             });
-        })
+        });
 
 
 
