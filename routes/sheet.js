@@ -49,7 +49,7 @@ router.post('/api/import/', function(req, res, next) {
             var worksheet = workbook.Sheets[sheet_name];
             var jsonSheet = XLSX.utils.sheet_to_json(worksheet);
 
-            console.log(jsonSheet);
+            // console.log(jsonSheet);
             //Simple syntax to create a new subclass of Parse.Object.
             var Collection = Parse.Object.extend(sheet_name);
 
@@ -59,16 +59,19 @@ router.post('/api/import/', function(req, res, next) {
             _.forEach(jsonSheet, function(row, key) {
                 // Create a new instance of that class.
                 var collection = new Collection();
-                // Loop throw columns
 
+                // Loop throw columns
                 collection.set('conference', conference);
                 _.forEach(row, function(val, key){
-                    console.log(key+" : "+val);
-                    if((val.toLowerCase()=='true') || (val.toLowerCase()=='false')) {
+                    // console.log(key+" : "+val);
+                    if((val.toLowerCase()=='yes') || (val.toLowerCase()=='no')) {
                         console.log("Boolean Detected!");
-                        collection.set(key, (val.toLowerCase()=='true'));
+                        collection.set(lowerFirst(key), (val.toLowerCase()=='yes'));
+                    } else if(key.toLowerCase()=='zip') {
+                        console.log("Number Detected!");
+                        collection.set(lowerFirst(key),parseInt(val));
                     } else {
-                        collection.set(key, val);
+                        collection.set(lowerFirst(key), val);
                     }
                 });
                 list.push(collection);
@@ -83,21 +86,20 @@ router.post('/api/import/', function(req, res, next) {
                 error: function(data, error) {
                     // Execute any logic that should take place if the save fails.
                     // error is a Parse.Error with an error code and message.
-                    console.log('Failed to create new object, with error code: ' + error.message);
+                    console.log('Failed to create new object, with error code: ');
+                    console.log(data);
                 }
             });
         });
-
-
-
         res.sendStatus(200);
-
     } else {
         res.sendStatus(400);
     }
 });
 
-
+function lowerFirst(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
 
 
 
