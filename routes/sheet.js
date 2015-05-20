@@ -144,10 +144,12 @@ var EventMap = function(rowData, callback) {
     var simpleObject = _.pick(rowData, primativeFields);
 
     // Only loop through primative data types (non-pointer, non-relational, non-files...)
+    //Name, Description
     _.forEach(simpleObject, function(val, key){
         event.set(key, val);
     });
 
+    // speakerPtr, TODO: loop through array
     var sPromise = ParseUtil.findPerson('D Chop', function(data, err){
         if(err) { return console.log("Error: " + err); }
 
