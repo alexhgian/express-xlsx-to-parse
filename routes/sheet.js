@@ -7,32 +7,10 @@ var _ = require('underscore');
 Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
 
 router.get('/', function(req, res, next){
-    // // if(typeof require !== 'undefined') XLSX = require('xlsx');
-    // Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
-    // // Simple syntax to create a new subclass of Parse.Object.
-    // var Attendee = Parse.Object.extend("Attendee");
-    //
-    // // Create a new instance of that class.
-    // var attendee = new Attendee();
-    // attendee.set("name", 'alex1234');
-    // attendee.save(null, {
-    //     success: function(gameScore) {
-    //         // Execute any logic that should take place after the object is saved.
-    //         console.log('New object created with objectId: ' + gameScore.id);
-    //     },
-    //     error: function(gameScore, error) {
-    //         // Execute any logic that should take place if the save fails.
-    //         // error is a Parse.Error with an error code and message.
-    //         console.log('Failed to create new object, with error code: ' + error.message);
-    //     }
-    // });
-
     res.render('index',{title:'world'});
 });
 
 router.post('/api/import/', function(req, res, next) {
-
-    Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
 
     var file = req.files.file;
 
@@ -106,20 +84,21 @@ var ParseUtil = {
         collect.id = val;
         return collect;
     },
-    findPerson : function(val, cb){
-        var Attendee = Parse.Object.extend('Attendee');
+    find : function(val, collection, cb){
+        var Attendee = Parse.Object.extend(collection);
         var query = new Parse.Query(Attendee);
 
-        query.equalTo("name", val);
+        query.equalTo("name", val.trim());
         return query.find({
             success: function(results) {
-                console.log("Successfully retrieved " + results.length + " attendees.");
-                // Do something with the returned Parse.Object values
-                // for (var i = 0; i < results.length; i++) {
-                //     var object = results[i];
-                //     console.log(object.id + ' - ' + object.get('name'));
-                // }
-                cb(ParseUtil.setPointer(results[0].id, 'Attendee'), false);
+                console.log("Successfully retrieved " + results.length + " "+collection+"s.");
+
+                if(results[0]){
+                    cb(ParseUtil.setPointer(results[0].id, collection), false);
+                } else {
+                    cb(null,'Invaid ID');
+                }
+
             },
             error: function(error) {
                 console.log("Error: " + error.code + " " + error.message);
@@ -130,83 +109,145 @@ var ParseUtil = {
     }
 }
 
-var EventMap = function(rowData, callback) {
+var Schema = {
+    Event : {
+        collectionName : 'Event',
+        pointer : [{
+            name : 'session',
+            pointerTo : 'Session'
+        }],
+        dateTime : ['date', 'startTime', 'endTime'],
+        relation:[{
+            name : 'speakers',
+            pointerTo : 'Attendee'
+        },{
+            name : 'attendees',
+            pointerTo : 'Attendee'
+        }],
+        file: ['slideName'],
+        primatives: ['description', 'name']
+    }
+}
+
+var CollectionMapper = function(rowData, schema, callback) {
     cb = callback || _.noop; // Optional Callback
-
     var promises = [];
-    // List of simple fields that don't require processing
-    var primativeFields = ['name', 'description'];
-    // Select the Object to manipulate.
-    var Event = Parse.Object.extend('Event');
-    var event = new Event();
 
-    // Select the primatives
-    var simpleObject = _.pick(rowData, primativeFields);
+    /*************************************
+    Select collection
+    **************************************/
+    var Col = Parse.Object.extend(schema.collectionName);
+    var col = new Col();
 
-    // Only loop through primative data types (non-pointer, non-relational, non-files...)
-    //Name, Description
+    /*************************************
+    Processing Primative Data
+    **************************************/
+    var simpleObject = _.pick(rowData, schema.primatives);
     _.forEach(simpleObject, function(val, key){
-        event.set(key, val);
+        col.set(key, val);
     });
 
-    // speakerPtr, TODO: loop through array
-    var sPromise = ParseUtil.findPerson('D Chop', function(data, err){
-        if(err) { return console.log("Error: " + err); }
 
-        var eventRel = event.relation('speakerPtr');
-        eventRel.add(data);
-
-        console.log('Finished relation...');
+    /*************************************
+    Processing Relational Data
+    **************************************/
+    _.forEach(schema.relation, function(rVal, rKey){
+        // TODO: Relational Data
+        if(rowData[rVal.name]){
+            _.forEach((rowData[rVal.name]).split(','), function(val, key){
+                var sPromise = ParseUtil.find(val, rVal.pointerTo, function(data, err){
+                    if(err) { return err; }
+                    var colRel = col.relation(rVal.name);
+                    colRel.add(data);
+                });
+                promises.push(sPromise); // Add to list of promises
+            });
+        }
     });
-    promises.push(sPromise); // Add to list of promises
 
 
-    // For the rest we need to manually set them.
-    // Like pointers
-    event.set('session', ParseUtil.setPointer(rowData.session, 'Session'));
+    /*************************************
+    Select Pointer Data
+    **************************************/
+    _.forEach(schema.pointer, function(pVal, pKey){
+        if(rowData[pVal.name]){
+            col.set(pVal.name, ParseUtil.setPointer(rowData[pVal.name], pVal.pointerTo));
+        }
+    });
 
+    /*************************************
+    Select File Data
+    **************************************/
+
+
+
+
+    /*************************************
+    Select Time Data
+    **************************************/
+
+
+    /*************************************
+    Handle Promises
+    **************************************/
     Parse.Promise.when(promises).then(function(){
-        console.log('Event Promises finished');
-        cb(event);
+        console.log(schema.collectionName + ' Promises finished');
+        cb(col);
     });
 
     return Parse.Promise.when(promises);
 }
 
-router.get('/test1', function(req, res, next) {
+router.get('/xlsx', function(req, res, next) {
+    fileToParse(req, res, next);
+});
+
+fileToParse();
+function fileToParse(req, res, next){
     var list = [];
     var promises = [];
     var sheet = [{
         'name' : 'Wellness Matters',
-        'speaker' : ['D Chop'],
+        'speakers' : 'Deepak Chopra, Gary Conkright',
+        'attendees' : 'Deepak Chopra, Gary Conkright',
         'description' : 'Being Well in the 33rd century',
         'slideName' : 'myslide.pdf',
         'conference': 'x9e1mtYnwH',
-        'session': 'bjURosMXyC'
+        'session': 'bjURosMXyC',
+        'Date':0,
+        'StartTime':0,
+        'EndTime':0
     },{
         'name' : 'Robots Matters',
-        'speaker' : ['Alex Gian'],
+        'speakers' : 'Gary Conkright',
+
         'description' : 'Arduino Microcontrollers',
         'slideName' : 'myslide1.pdf',
         'conference': 'x9e1mtYnwH',
-        'session': 'bjURosMXyC'
+        'session': 'bjURosMXyC',
+        'Date':0,
+        'StartTime':0,
+        'EndTime':0
     }];
 
-    _.forEach(sheet, function(val, key){
-        var promise = EventMap(val, function(data){
+
+
+    _.forEach(sheet, function(row, key){
+        var promise = CollectionMapper(row,Schema.Event, function(data){
             list.push(data);
         });
         promises.push(promise);
     });
 
+    Parse.Promise.when(promises).then(function(data){
+        console.log('Objects [' + list.length + '] saved!');
 
-
-    Parse.Promise.when(promises).then(function(){
         Parse.Object.saveAll(list, {
             success: function(data) {
                 // Execute any logic that should take place after the object is saved.
                 console.log('Objects [' + data.length + '] saved!');
-                res.json(data);
+                //res.json(data);
+                //console.log(data);
             },
             error: function(data, error) {
                 // Execute any logic that should take place if the save fails.
@@ -217,11 +258,6 @@ router.get('/test1', function(req, res, next) {
             }
         });
     });
-
-});
-
-function fileToParse(cb){
-
 
 }
 
