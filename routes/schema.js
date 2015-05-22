@@ -39,5 +39,26 @@ exports.Schema = {
             name: 'isSpeaker',
             default: true
         }]
+    },
+    Attendee : {
+        collectionName : 'Attendee',
+        pointer : [],
+        dateTime : [],
+        relation:[],
+        file: [],
+        primatives: [{
+            name: 'bio'
+        },{
+            name: 'email'
+        },{
+            name: 'experience'
+        },{
+            name: 'title'
+        },{
+            name: 'organization'
+        },{
+            name: 'isSpeaker',
+            default: false
+        }]
     }
 }
