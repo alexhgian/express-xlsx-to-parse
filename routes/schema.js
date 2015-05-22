@@ -13,22 +13,31 @@ exports.Schema = {
             pointerTo : 'Attendee'
         }],
         file: ['slideName'],
-        primatives: ['description', 'name']
+        primatives: [{
+            name: 'description'
+        },{
+            name: 'name'
+        }]
     },
-    Session : {
-        collectionName : 'Session',
-        pointer : [{
-            name : 'session',
-            pointerTo : 'Session'
-        }],
-        dateTime : ['startTime', 'endTime'],
-        relation:[{
-            name : 'speakers',
-            pointerTo : 'Attendee'
-        }],
-        file: ['slideName'],
-        primatives: ['description', 'name']
-        //TODO: Add default value keypair
-        //TODO: Handle Boolean
+    Speaker : {
+        collectionName : 'Attendee',
+        pointer : [],
+        dateTime : [],
+        relation:[],
+        file: [],
+        primatives: [{
+            name: 'bio'
+        },{
+            name: 'email'
+        },{
+            name: 'experience'
+        },{
+            name: 'title'
+        },{
+            name: 'organization'
+        },{
+            name: 'isSpeaker',
+            default: true
+        }]
     }
 }

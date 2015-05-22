@@ -21,7 +21,7 @@ exports.Mapper = function(Parse) {
             query.equalTo("name", val.trim());
             return query.find({
                 success: function(results) {
-                    console.log("Successfully retrieved " + results.length + " "+collection+"s.");
+                    // console.log("Successfully retrieved " + results.length + " "+collection+"s.");
 
                     if(results[0]){
                         cb(ParseUtil.setPointer(results[0].id, collection), false);
@@ -31,7 +31,7 @@ exports.Mapper = function(Parse) {
 
                 },
                 error: function(error) {
-                    console.log("Error: " + error.code + " " + error.message);
+                    // console.log("Error: " + error.code + " " + error.message);
                     cb(null, error);
                 }
             });
@@ -55,11 +55,13 @@ exports.Mapper = function(Parse) {
         Processing Primative Data
         **************************************/
         _.forEach(schema.primatives, function(val, key){
-            if(rowData[val.name]){
-                // If the schema has a default value set that
-                if(val.default){
-                    col.set(val.name, val.default);
-                } else { // if not set the xlsx define value
+
+
+            // If the schema has a default value set that
+            if(val.default){
+                col.set(val.name, val.default);
+            } else { // if not set the xlsx define value
+                if(rowData[val.name]){
                     col.set(val.name, rowData[val.name]);
                 }
             }
@@ -118,19 +120,19 @@ exports.Mapper = function(Parse) {
         _.forEach(schema.file, function(pVal, pKey){
 
             if(rowData[pVal]){
-                console.log("Getting files..." + rowData[pVal]);
+                // console.log("Getting files..." + rowData[pVal]);
                 var Uploads = Parse.Object.extend('Uploads');
                 var query = new Parse.Query(Uploads);
                 query.equalTo("name", rowData[pVal]);
                 var sPromise = query.find({
                     success: function(results) {
-                        console.log("Successfully retrieved " + results.length + " Uploads.");
+                        // console.log("Successfully retrieved " + results.length + " Uploads.");
                         if(results[0]) {
                             col.set(pVal, results[0].get('file'));
                         }
                     },
                     error: function(error) {
-                        console.log('Error getting files!');
+                        // console.log('Error getting files!');
                     }
                 });
 
@@ -147,7 +149,7 @@ exports.Mapper = function(Parse) {
                 if(dt.toString()=='Invalid Date'){
                     dt = new Date((new Date()).toDateString() + ' ' + rowData[pVal]);
                 }
-                console.log(pVal+' '+dt.toString());
+                // console.log(pVal+' '+dt.toString());
                 if(dt.toString()!='Invalid Date'){
                     col.set(pVal, dt);
                 }
@@ -158,7 +160,7 @@ exports.Mapper = function(Parse) {
         Handle Promises
         **************************************/
         Parse.Promise.when(promises).then(function(){
-            console.log(schema.collectionName + ' Promises finished');
+            // console.log(schema.collectionName + ' Promises finished');
             cb(col);
         });
 
@@ -186,20 +188,20 @@ exports.Mapper = function(Parse) {
         return Parse.Promise.when(promises).then(function(data){
 
 
-             var tmp = Parse.Object.saveAll(list, {
+            var tmp = Parse.Object.saveAll(list, {
                 success: function(data) {
                     // Execute any logic that should take place after the object is saved.
 
-                    console.log('Objects [' + data.length + '] saved!');
+                    // console.log('Objects [' + data.length + '] saved!');
                     //res.json(data);
-                    //console.log(data);
+                    //// console.log(data);
                     cb(data, false);
                 },
                 error: function(data, error) {
                     // Execute any logic that should take place if the save fails.
                     // error is a Parse.Error with an error code and message.
-                    console.log('Failed to create new object, with error code: ');
-                    console.log(data);
+                    // console.log('Failed to create new object, with error code: ');
+                    // console.log(data);
                     cb(data, error);
 
                 }
