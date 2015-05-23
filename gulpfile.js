@@ -16,7 +16,7 @@ gulp.task('start', function () {
 
 
 gulp.task('test', function () {
-    return gulp.src('./test/test.js')
+    return gulp.src('./test/*')
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(mocha());
 });

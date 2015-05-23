@@ -24,13 +24,16 @@ exports.Schema = {
         pointer : [],
         dateTime : [],
         relation:[],
-        file: [],
+        file: ['image'],
         primatives: [{
+            name: 'name'
+        },{
             name: 'bio'
         },{
             name: 'email'
         },{
-            name: 'experience'
+            name: 'experience',
+            dbName: 'job'
         },{
             name: 'title'
         },{
@@ -38,7 +41,8 @@ exports.Schema = {
         },{
             name: 'isSpeaker',
             default: true
-        }]
+        }],
+        boolean: ['isContactable']
     },
     Attendee : {
         collectionName : 'Attendee',
@@ -47,16 +51,6 @@ exports.Schema = {
         relation:[],
         file: [],
         primatives: [{
-            name: 'bio'
-        },{
-            name: 'email'
-        },{
-            name: 'experience'
-        },{
-            name: 'title'
-        },{
-            name: 'organization'
-        },{
             name: 'isSpeaker',
             default: false
         }]

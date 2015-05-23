@@ -57,7 +57,7 @@ router.post('/api/import', function(req, res, next) {
 
 // Placeholder just to show that its working
 router.get('/', function(req, res, next){
-    res.render('index',{title:'world'});
+    res.render('index',{title:'File Upload'});
 });
 
 
