@@ -44,7 +44,7 @@ exports.Schema = {
         affiliation : 'String',
         isSpeaker : {
             type : 'Boolean',
-            default: true
+            default: false
         },
         isContactable : 'Boolean'
     },

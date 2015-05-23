@@ -28,7 +28,7 @@ describe('Mapping', function() {
                 'speakers' : 'Deepak Chopra, Gary Conkright',
                 'description' : 'Being Well in the 33rd century',
                 'slideName' : '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg',
-                'track': 'Sensors Transforming Care',
+                'track': 'NewTrack2',
                 'startTime':'10/17/1991 9:59 AM',
                 'endTime':'10/17/1991 10:59 AM'
             },{
@@ -36,7 +36,7 @@ describe('Mapping', function() {
                 'speakers' : 'Gary Conkright',
                 'description' : 'Arduino Microcontrollers',
                 'slideName' : '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg',
-                'track': 'Sensors Transforming Care',
+                'track': 'NewTrack2',
                 'startTime':'10/17/1991 9:59 AM',
                 'endTime':'10/17/1991 10:59 AM'
             }],
