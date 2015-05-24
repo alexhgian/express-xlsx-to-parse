@@ -1,5 +1,5 @@
 'use strict';
-var Schema = require('./schema2').Schema;
+var Schema = require('./schema').Schema;
 var _ = require('underscore');
 
 exports.Mapper = function(Parse) {
@@ -18,11 +18,12 @@ exports.Mapper = function(Parse) {
             return collect;
         },
         find : function(searchQuery, val, collection, cb){
+
             var Collection = Parse.Object.extend(collection);
-            var query = new Parse.Query(Collection);
-            //query = "name"
-            query.equalTo(searchQuery, val.trim());
-            return query.find({
+            var mainQuery = new Parse.Query(Collection);
+            mainQuery.equalTo(searchQuery, val.trim());
+
+            return mainQuery.find({
                 success: function(results) {
                     // // console.log("Successfully retrieved " + results.length + " "+collection+"s.");
 
@@ -100,8 +101,10 @@ exports.Mapper = function(Parse) {
                     switch(field.type || field){
                         // String and Number
                         case 'String':
-                        case 'Number':
                         col.set(field.parseName || key, val);
+                        break;
+                        case 'Number':
+                        col.set(field.parseName || key, parseInt(val));
                         // console.log('    > Number or String: ' + val);
                         break;
 
@@ -168,7 +171,7 @@ exports.Mapper = function(Parse) {
                         **************************************/
                         case 'Relation':
                         _.forEach(val.split(','), function(rVal, rKey){
-                            var sPromise = ParseUtil.find("name", rVal, field.pointerTo, function(data, err){
+                            var sPromise = ParseUtil.find(field.query || "name", rVal, field.pointerTo, function(data, err){
                                 if(err) { return err; }
                                 var colRel = col.relation(field.parseName || key);
                                 colRel.add(data);
@@ -200,12 +203,19 @@ exports.Mapper = function(Parse) {
         var savePromise;
         _.forEach(jsonSheet, function(row, key){
 
+            // Make every first letter lowercase
             var tmpInvObj = _.invert(row);
             tmpInvObj = _.mapObject(tmpInvObj, function(val, key){
                 return lowerFirst(val);
             });
             var newRow = _.invert(tmpInvObj);
 
+            // Combined first and last name
+            if( newRow.firstName && newRow.lastName ){
+                newRow.name = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim();
+                console.log('FN LS: ' + newRow.name);
+            }
+            // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function(data){
                 list.push(data);
             });

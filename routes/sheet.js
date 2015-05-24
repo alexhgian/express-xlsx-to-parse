@@ -8,7 +8,7 @@ var _ = require('underscore');
 
 /* GET users listing. */
 Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
-var Mapper = require('./mapper2').Mapper(Parse);
+var Mapper = require('./mapper').Mapper(Parse);
 
 // Assoicate Conference Id to all Rows
 var Conference = Parse.Object.extend("Conference");
@@ -25,25 +25,57 @@ router.post('/api/import', function(req, res, next) {
     conference.id = req.body.conference || 'yVEOkRMQ5w';
     console.log("ConId"+ conference.id);
 
-
     var workbook = XLSX.readFile(file.path);
 
-    _.forEach(workbook.SheetNames, function(sheet_name, key){
-        console.log(sheet_name);
 
-        var worksheet = workbook.Sheets[sheet_name];
-        var jsonSheet = XLSX.utils.sheet_to_json(worksheet);
+    var worksheet1 = workbook.Sheets['Attendee'];
+    var jsonSheet1 = XLSX.utils.sheet_to_json(worksheet1);
+    var p1 = Mapper(conference, jsonSheet1, 'Attendee', function(data, err){
+        if(err) {return console.log("Error");}
+        console.log("Success Saved Attednee");
+    });
+    wbPromises.push(p1);
 
-        // The magic method
-        var sheetPromise = Mapper(conference, jsonSheet, sheet_name, function(data, err){
+
+    var worksheet2 = workbook.Sheets['Speaker'];
+    var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
+    var p2 = Mapper(conference, jsonSheet2, 'Speaker', function(data, err){
+        if(err) {return console.log("Error");}
+        console.log("Success Saved Speaker");
+    });
+    wbPromises.push(p2);
+
+
+    var worksheet3 = workbook.Sheets['Session'];
+    var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
+    var p3 = Mapper(conference, jsonSheet3, 'Session', function(data, err){
+        if(err) {return console.log("Error");}
+        console.log("Success Saved Session");
+    });
+    wbPromises.push(p3);
+
+
+    var worksheet4 = workbook.Sheets['Event'];
+    var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
+    var p4 = Parse.Promise.when([p2,p3]).then(function(){
+        Mapper(conference, jsonSheet4, 'Event', function(data, err){
             if(err) {return console.log("Error");}
-            console.log("Success Saved P1");
+            console.log("Success Saved Event");
         });
+    });
+    wbPromises.push(p4);
+    
 
-        // Collect the promises
-        wbPromises.push(sheetPromise);
+    var worksheet5 = workbook.Sheets['Sponsor'];
+    var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
+    var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function(data, err){
+        if(err) {return console.log("Error");}
+        console.log("Success Saved Sponsor");
+    });
+    wbPromises.push(p5);
+    // Collect the promises
 
-    });// End Sheet Loop
+
 
     Parse.Promise.when(wbPromises).then(function(){
         console.log("Saves Finished");
