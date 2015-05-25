@@ -7,7 +7,7 @@ var Parse = require('parse').Parse;
 var _ = require('underscore');
 
 /* GET users listing. */
-Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','6l0VJ52yXBxMr28oYEfKz5GHeMpuIcEecFbEQj2P');
+Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
 var Mapper = require('./mapper').Mapper(Parse);
 
 // Assoicate Conference Id to all Rows
