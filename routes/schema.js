@@ -73,7 +73,7 @@ exports.Schema = {
         name : 'String',
         track : 'String',
         startTime : 'Date',
-        endTIme : 'Date',
+        endTime : 'Date',
         moderator : 'String' ,
         location : 'String'
     },
