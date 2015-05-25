@@ -7,7 +7,7 @@ var Parse = require('parse').Parse;
 var _ = require('underscore');
 
 /* GET users listing. */
-Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
+Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','6l0VJ52yXBxMr28oYEfKz5GHeMpuIcEecFbEQj2P');
 var Mapper = require('./mapper').Mapper(Parse);
 
 // Assoicate Conference Id to all Rows
@@ -64,7 +64,7 @@ router.post('/api/import', function(req, res, next) {
         });
     });
     wbPromises.push(p4);
-    
+
 
     var worksheet5 = workbook.Sheets['Sponsor'];
     var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
