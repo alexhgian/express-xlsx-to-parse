@@ -3,6 +3,7 @@ var Schema = require('./schema').Schema;
 var _ = require('underscore');
 
 exports.Mapper = function(Parse) {
+    var Undupe = require('./undupe').Undupe(Parse);
     // Assoicate Conference Id to all Rows
     var Conference = Parse.Object.extend("Conference");
     var conference = new Conference();
