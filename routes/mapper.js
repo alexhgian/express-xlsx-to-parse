@@ -3,6 +3,7 @@ var Schema = require('./schema').Schema;
 var _ = require('underscore');
 
 exports.Mapper = function(Parse) {
+    var Undupe = require('./undupe').Undupe(Parse);
     // Assoicate Conference Id to all Rows
     var Conference = Parse.Object.extend("Conference");
     var conference = new Conference();
@@ -224,28 +225,35 @@ exports.Mapper = function(Parse) {
 
         return Parse.Promise.when(promises).then(function(data){
 
-
-            var tmp = Parse.Object.saveAll(list, {
-                success: function(data) {
-                    console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
-                    // Execute any logic that should take place after the object is saved.
-
-                    // // console.log('Objects [' + data.length + '] saved!');
-                    //res.json(data);
-                    //// // console.log(data);
-                    cb(data, false);
-                },
-                error: function(data, error) {
-                    // Execute any logic that should take place if the save fails.
-                    // error is a Parse.Error with an error code and message.
-                    console.log('Failed to create new object, with error code: ');
-                    console.log(data);
-                    cb(data, error);
-
-                }
+            // var tmp = Parse.Object.saveAll(list, {
+            //     success: function(data) {
+            //         console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
+            //         // Execute any logic that should take place after the object is saved.
+            //
+            //         // // console.log('Objects [' + data.length + '] saved!');
+            //         //res.json(data);
+            //         //// // console.log(data);
+            //         cb(data, false);
+            //     },
+            //     error: function(data, error) {
+            //         // Execute any logic that should take place if the save fails.
+            //         // error is a Parse.Error with an error code and message.
+            //         console.log('Failed to create new object, with error code: ');
+            //         console.log(data);
+            //         cb(data, error);
+            //
+            //     }
+            // });
+            //
+            // return tmp;
+            return Undupe.saveWithoutDupe(list, 'name').then(function(data) {
+                console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
+                console.log('Objects [' + data.length + '] saved!');
+                cb(data, false);
+            }).fail(function(data){
+                console.log('Failed to create new object, with error code: ');
+                cb(data, true);
             });
-
-            return tmp;
 
         });
 
