@@ -51,11 +51,13 @@ exports.Schema = {
     Event : {
         collectionName : 'Event',
         primaryKey : 'name',
-        track : {
+        track:'String',
+        name:'String',
+        key : {
             type : 'Pointer',
             parseName : 'session',
             pointerTo : 'Session',
-            query : 'track'
+            query : 'key'// Which field in Session to look at
         },
         startTime : 'Date',
         endTime : 'Date',
@@ -79,7 +81,8 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
-        primaryKey : 'startTime',
+        primaryKey : 'key',
+        key : 'String', // A Combination of name + track use for search
         name : 'String',
         track : 'String',
         startTime : 'Date',

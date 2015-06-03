@@ -231,6 +231,14 @@ exports.Mapper = function(Parse) {
                 newRow.name = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim();
                 //console.log('FN LS: ' + newRow.name);
             }
+
+            // Combined first and last name
+            if( newRow.name && newRow.track ){
+                newRow.key = (newRow.name).trim() + ': ' + (newRow.track).trim();
+                //console.log('FN LS: ' + newRow.name);
+            }
+
+
             // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function(data){
                 list.push(data);
