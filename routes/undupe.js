@@ -16,6 +16,7 @@ exports.Undupe = function(Parse) {
         var tmpList = [];
         arr1.forEach(function(arr1Val, key1) {
             arr2.forEach(function(arr2Val, key2) {
+                //console.log(arr1Val);
                 if (arr1Val.get(compareKey) == arr2Val.get(compareKey)) {
                     extendObject(arr2Val, arr1Val);
                     cb(arr1Val, arr2Val);

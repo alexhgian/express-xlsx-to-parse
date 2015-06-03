@@ -87,7 +87,22 @@ exports.Mapper = function(Parse) {
             // // console.log(key + ' : ' + val + ' has default ' + (val.default!=undefined) )
             if( val.default!=undefined ) {
                 // console.log('    > Setting default for ' + key + ' = ' + val.default );
-                col.set(key, val.default);
+                switch(val.type) {
+                    case 'Pointer':
+                    console.log('     > Default Pointer Detected in Schema: ' + schema.collectionName);
+                    console.log('     >>>>> '+val.pointerTo);
+                    var NewCol = Parse.Object.extend(val.pointerTo);
+                    var newCol = new NewCol();
+                    console.log(newCol.id);
+                    //col.set(val.parseName || key, newCol);
+                    break;
+                    case 'Boolean':
+                    case 'String':
+                    case 'Number':
+                    col.set(val.parseName || key, val.default);
+                    break;
+                }
+
             }
         });
 
@@ -162,8 +177,8 @@ exports.Mapper = function(Parse) {
                             col.set(field.parseName || key, ParseUtil.setPointer(data.id, field.pointerTo));
                         });
                         promises.push(pPromise); // Add to list of promises
-                        console.log('    > Pointer')
-                        console.log('    >> key:val:field.query ' + key + ':' + val + ':' + field.query )
+                        //console.log('    > Pointer')
+                        //console.log('    >> key:val:field.query ' + key + ':' + val + ':' + field.query )
                         break;
 
 
@@ -214,7 +229,7 @@ exports.Mapper = function(Parse) {
             // Combined first and last name
             if( newRow.firstName && newRow.lastName ){
                 newRow.name = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim();
-                console.log('FN LS: ' + newRow.name);
+                //console.log('FN LS: ' + newRow.name);
             }
             // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function(data){
@@ -246,9 +261,10 @@ exports.Mapper = function(Parse) {
             // });
             //
             // return tmp;
-            return Undupe.saveWithoutDupe(list, 'name').then(function(data) {
+            console.log('     > before saving: '+Schema[sheetName].primaryKey);
+            return Undupe.saveWithoutDupe(list, Schema[sheetName].primaryKey).then(function(data) {
                 console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
-                console.log('Objects [' + data.length + '] saved!');
+                //console.log('Objects [' + data.length + '] saved!');
                 cb(data, false);
             }).fail(function(data){
                 console.log('Failed to create new object, with error code: ');
