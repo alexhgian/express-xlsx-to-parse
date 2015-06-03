@@ -3,6 +3,7 @@
 exports.Schema = {
     Speaker : {
         collectionName : 'Attendee',
+        primaryKey : 'name',
         image : 'File',
         name : 'String',
         bio : 'String',
@@ -24,6 +25,7 @@ exports.Schema = {
     },
     Attendee : {
         collectionName : 'Attendee',
+        primaryKey : 'name',
         imageFileName : {
             type : 'File',
             parseName : 'image'
@@ -48,11 +50,14 @@ exports.Schema = {
     },
     Event : {
         collectionName : 'Event',
-        track : {
+        primaryKey : 'name',
+        track:'String',
+        name:'String',
+        key : {
             type : 'Pointer',
             parseName : 'session',
             pointerTo : 'Session',
-            query : 'track'
+            query : 'key'// Which field in Session to look at
         },
         startTime : 'Date',
         endTime : 'Date',
@@ -67,9 +72,17 @@ exports.Schema = {
             type : 'String',
             parseName : 'name'
         }
+        // ,
+        // discussionBoard : {
+        //     type: 'Pointer',
+        //     pointerTo: 'DiscussionBoard',
+        //     default: true
+        // }
     },
     Session : {
         collectionName : 'Session',
+        primaryKey : 'key',
+        key : 'String', // A Combination of name + track use for search
         name : 'String',
         track : 'String',
         startTime : 'Date',
@@ -79,6 +92,7 @@ exports.Schema = {
     },
     Sponsor : {
         collectionName : 'Sponsor',
+        primaryKey: 'name',
         order: 'Number',
         name: 'String',
         type: 'String',
