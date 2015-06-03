@@ -50,7 +50,8 @@ exports.Schema = {
     },
     Event : {
         collectionName : 'Event',
-        primaryKey : 'name',
+        primaryKey : 'key',
+        key: 'String',
         track : {
             type : 'Pointer',
             parseName : 'session',

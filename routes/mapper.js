@@ -232,9 +232,9 @@ exports.Mapper = function(Parse) {
                 //console.log('FN LS: ' + newRow.name);
             }
 
-            // Combined first and last name
-            if( newRow.name && newRow.track ){
-                newRow.key = (newRow.name).trim() + ': ' + (newRow.track).trim();
+            // Combined name or talk and startTime to generate unique key
+            if( (newRow.name||newRow.talk) && newRow.startTime ){
+                newRow.key = (newRow.name||newRow.talk).trim() + ': ' + (newRow.startTime).trim();
                 //console.log('FN LS: ' + newRow.name);
             }
 
