@@ -233,8 +233,8 @@ exports.Mapper = function(Parse) {
             }
 
             // Combined name or talk and startTime to generate unique key
-            if( (newRow.name||newRow.talk) && newRow.startTime ){
-                newRow.key = (newRow.name||newRow.talk).trim() + ': ' + (newRow.startTime).trim();
+            if( (newRow.track||newRow.talk) && newRow.startTime ){
+                newRow.key = (newRow.track||newRow.talk).trim() + ': ' + (newRow.startTime).trim();
                 //console.log('FN LS: ' + newRow.name);
             }
 
