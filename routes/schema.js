@@ -52,6 +52,10 @@ exports.Schema = {
         collectionName : 'Event',
         primaryKey : 'key',
         key: 'String',
+        talk :{
+            type : 'String',
+            parseName : 'name'
+        },
         track : {
             type : 'Pointer',
             parseName : 'session',
@@ -65,24 +69,15 @@ exports.Schema = {
             pointerTo : 'Attendee',
             query : 'name'
         },
-        slideName : 'File',
-        description : 'String',
-        talk :{
-            type : 'String',
-            parseName : 'name'
-        }
-        // ,
-        // discussionBoard : {
-        //     type: 'Pointer',
-        //     pointerTo: 'DiscussionBoard',
-        //     default: true
-        // }
+        presentation : 'File',
+        abstract : 'File',
+        journal : 'File',
+        misc : 'File'
     },
     Session : {
         collectionName : 'Session',
         primaryKey : 'key',
         key : 'String', // A Combination of name + track use for search
-        name : 'String',
         track : 'String',
         startTime : 'Date',
         endTime : 'Date',
