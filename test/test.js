@@ -7,7 +7,9 @@ var Parse = require('parse').Parse;
 var _ = require('underscore');
 
 /* GET users listing. */
-Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
+//Parse.initialize('UnTJ7KjFdK1wNMHkvJBMBAMu4jqh7tog5WZYRJ5c','aT6vbh3DMGGzfxDmcjJH23qsZGts7hop2gTWetFy');
+Parse.initialize('341E4A86uPW4m5xKuTy7XvoqjjKgSuEZZ1Me0q5W','VgB990f4aE5ukT0mcu9J4JNzuQ3hevmMwqicHTr6');
+
 var Mapper = require('../routes/mapper').Mapper(Parse);
 
 // Assoicate Conference Id to all Rows
@@ -25,35 +27,25 @@ describe('Mapping', function() {
         MockData = {
             Event : [{
                 'talk' : 'Wellness Matters',
-                'speakers' : 'Deepak Chopra, Gary Conkright',
-                'description' : 'Being Well in the 33rd century',
-                'slideName' : '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg',
-
-                'track' : 'Track1',
-                'startTime':'10/17/1991 9:59 AM',
-                'endTime':'10/17/1991 10:59 AM'
+                'track' : 'Morning Session I: Individualizing Medicine',
+                'startTime':'10/1/2015 8:45:00',
+                'endTime':'10/1/15 9:15 AM',
+                'speakers' : 'Deepak Chopra',
+                'presentation' : ''
             },{
-                'talk' : 'Robots Matters',
-                'speakers' : 'Gary Conkright',
-                'description' : 'Arduino Microcontrollers',
-                'slideName' : '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg',
-        
-                'track' : 'Track1',
-                'startTime':'10/17/1991 9:59 AM',
-                'endTime':'10/17/1991 10:59 AM'
+                'talk' : 'Precision Medicine as a National Initiative: The Role of mHealth',
+                'track' : 'Morning Session I: Individualizing Medicine',
+                'startTime':'10/1/15 9:15 AM',
+                'endTime':'10/1/15 9:45 AM',
+                'speakers' : 'Wendy J. Nilsen',
+                'presentation' : ''
             }],
             Session : [{
-                'name' : 'Morning Session II',
-                'track' : 'Track1',
+                'track' : 'Morning Session I: Individualizing Medicine',
                 'moderator' : 'Raj',
-                'startTime':'10/17/1991 9:59 AM',
-                'endTime':'10/17/1991 10:59 AM'
-            },{
-                'name' : 'Morning Session II',
-                'track' : 'Track2',
-                'moderator' : 'Raj',
-                'startTime':'10/17/1991 9:59 AM',
-                'endTime':'10/17/1991 10:59 AM'
+                'startTime':'10/1/15 7:30 AM',
+                'endTime':'10/1/15 8:45 AM',
+                'location': 'Scripps Seaside Forum'
             }],
             Speaker : [{
                 'firstName' : 'Deepak',

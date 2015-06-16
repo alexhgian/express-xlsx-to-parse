@@ -38,8 +38,7 @@ exports.Undupe = function(Parse) {
     }
 
     saver.saveWithoutDupe = function(list, cKey) {
-
-        var savePromise = new Parse.Promise();
+        var savePromise = new Parse.Promise();      
         var query = new Parse.Query(list[0].className);
         query.find({
             success: function(results) {

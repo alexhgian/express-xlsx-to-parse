@@ -233,8 +233,9 @@ exports.Mapper = function(Parse) {
             }
 
             // Combined name or talk and startTime to generate unique key
-            if( (newRow.track||newRow.talk) && newRow.startTime ){
-                newRow.key = (newRow.track||newRow.talk).trim() + ': ' + (newRow.startTime).trim();
+            // used for Event issue with Openning Remarks and Closing Remarks
+            if( (newRow.talk) && newRow.startTime ){
+                newRow.key = (newRow.talk).trim() + ': ' + (newRow.startTime).trim();
                 //console.log('FN LS: ' + newRow.name);
             }
 
@@ -269,7 +270,7 @@ exports.Mapper = function(Parse) {
             // });
             //
             // return tmp;
-            console.log('     > before saving: '+Schema[sheetName].primaryKey);
+            console.log('     > before saving: '+Schema[sheetName].primaryKey + ' for ' + sheetName);
             return Undupe.saveWithoutDupe(list, Schema[sheetName].primaryKey).then(function(data) {
                 console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
                 //console.log('Objects [' + data.length + '] saved!');

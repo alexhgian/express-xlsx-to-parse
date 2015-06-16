@@ -76,7 +76,7 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
-        primaryKey : 'key',
+        primaryKey : 'track',
         key : 'String', // A Combination of name + track use for search
         track : 'String',
         startTime : 'Date',
