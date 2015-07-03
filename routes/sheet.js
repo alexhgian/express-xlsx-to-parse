@@ -7,8 +7,8 @@ var Parse = require('parse').Parse;
 var _ = require('underscore');
 
 /* GET users listing. */
-Parse.initialize('341E4A86uPW4m5xKuTy7XvoqjjKgSuEZZ1Me0q5W','VgB990f4aE5ukT0mcu9J4JNzuQ3hevmMwqicHTr6');
-// Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
+//Parse.initialize('341E4A86uPW4m5xKuTy7XvoqjjKgSuEZZ1Me0q5W','VgB990f4aE5ukT0mcu9J4JNzuQ3hevmMwqicHTr6');
+Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
 var Mapper = require('./mapper').Mapper(Parse);
 
 // Assoicate Conference Id to all Rows
@@ -71,9 +71,14 @@ router.post('/api/import', function(req, res, next) {
 
     // Check if Sheet is empty
     if(jsonSheet4.length>0){
-        var p4 = Parse.Promise.when([p2,p3]).then(function(){
+        var p4 = new Parse.Promise();
+        Parse.Promise.when([p2,p3]).then(function(){
             Mapper(conference, jsonSheet4, 'Event', function(data, err){
-                if(err) {return console.log("Error");}
+                if(err) {
+                    p4.reject(err);
+                    return console.log("Error");
+                }
+                p4.resolve(err);
                 console.log("Success Saved Event");
             });
         });
@@ -98,7 +103,14 @@ router.post('/api/import', function(req, res, next) {
 
     Parse.Promise.when(wbPromises).then(function(){
         console.log("Saves Finished");
-        res.sendStatus(200);
+        console.log(">>>>>>>>>> Generating Discussion Boards...");
+        createDiscussionBoards(conference.id, function(error, data){
+            if(error){
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(200);
+            }
+        });
     }).fail(function(){
         console.log("One or more attempt to save has failed!");
         res.sendStatus(400);
@@ -110,6 +122,49 @@ router.post('/api/import', function(req, res, next) {
 router.get('/', function(req, res, next){
     res.render('index',{title:'File Upload'});
 });
+
+/**
+* Creates Discussion Board
+*/
+function createDiscussionBoards(conId, cb) {
+    var Con = Parse.Object.extend('Conference');
+    var con = new Con();
+    con.id = conId;
+
+    // Create Event object and query
+    var Event = Parse.Object.extend("Event");
+    var query = new Parse.Query(Event);
+    var list = [];
+
+    // Query for events that do not have discussion board.
+    query.doesNotExist("board");
+    var qPromise = query.find({
+        success: function(data) {
+            data.forEach(function(val, key) {
+                var Board = Parse.Object.extend("DiscussionBoard");
+                var board = new Board();
+                board.set('conference',con);// Add Conference pointer
+                board.set('hasQuestions',false);// Add Conference pointer
+                board.set('event', data[key]);// Add Event pointer
+                data[key].set('board', board);
+            });
+            list = data;
+        }
+    });
+
+    // Wait for promise to resolve
+    qPromise.then(function() {
+        Parse.Object.saveAll(list, {
+            success: function(data) {
+                console.log('Number of objects saved: ' + data.length);
+                cb(false, data);
+            },
+            error: function(error) {
+                cb(true, error);
+            },
+        });
+    });
+}
 
 
 module.exports = router;
