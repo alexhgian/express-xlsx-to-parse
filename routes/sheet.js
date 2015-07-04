@@ -167,4 +167,22 @@ function createDiscussionBoards(conId, cb) {
 }
 
 
+
+var Validator = require('./validator.controller');
+router.post('/api/validate', function(req, res, next){
+    var file = req.files.file;
+    if(!file){ return res.sendRequest(400, "File missing!"); }
+    var workbook = XLSX.readFile(file.path);
+
+
+    var workbookObj = {};
+    _.each(workbook.Sheets, function(val, key){
+        var jsonSheet = XLSX.utils.sheet_to_json(val);
+        if(jsonSheet.length>0){
+            workbookObj[key] = jsonSheet;
+        }
+    });
+    res.send(workbookObj);
+});
+
 module.exports = router;
