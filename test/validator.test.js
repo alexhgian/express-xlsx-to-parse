@@ -8,38 +8,85 @@ var assert = require('assert');
 var _ = require('underscore');
 
 var Validator = require('../routes/validator.controller');
-var testData = {
-        attendee:{
-            experience: 'Test Experience',
-            title: 'Title Test',
-            email: 'test@test.com',
-            isContactable: true,
-            bio: 'Test Bio',
-            organization: 'Ointerface',
-            session: 'Wellness Matters',
-            imageFileName: 'test.jpg'
-        },
-        session:{},
-        event:{},
-        sponsor:{}
+var successData = {
+    attendee:[{
+        experience: 'Test Experience',
+        name: 'Alex',
+        bio: 'hi',
+        title: 'Title Test',
+        email: 'test@test.com',
+        isContactable: true,
+        organization: 'Ointerface',
+        session: 'Wellness Matters',
+        imageFileName: 'test.jpg'
+    },{
+        experience: 'Test Experience',
+        title: 'Title Test',
+        name: 'Alex',
+        bio: 'hi',
+        email: 'test@test.com',
+        isContactable: true,
+        organization: 'Ointerface',
+        session: 'Wellness Matters',
+        imageFileName: 'test.jpg'
+    }],
+    // session:[{}],
+    // event:[{}],
+    // sponsor:[{}]
+};
+
+var failData = {
+    attendee:[{
+        experience: 'Test Experience',
+        name: 'Alex',
+        title: 'Title Test',
+        email: 'test@test.com',
+        isContactable: true,
+        organization: 'Ointerface',
+        session: 'Wellness Matters',
+        imageFileName: 'test.jpg'
+    },{
+        experience: 'Test Experience',
+        title: 'Title Test',
+        bio: 'hi',
+        email: 'test@test.com',
+        isContactable: true,
+        organization: 'Ointerface',
+        session: 'Wellness Matters',
+        imageFileName: 'test.jpg'
+    }],
+    // session:[{}],
+    // event:[{}],
+    // sponsor:[{}]
 };
 /**** Test ****/
-describe('The Schema', function(){
-    it('should have Attendee', function(){
-        var Schema = Validator.getSchema();
-        assert.equal(Schema.attendee ? true : false, true);
-    });
-});
+// describe('The Schema', function(){
+//     it('should have Attendee', function(){
+//         var Schema = Validator.getSchema();
+//         assert.equal(Schema.attendee ? true : false, true);
+//     });
+// });
 describe('The Validator', function() {
-    it('should take an object', function(){
-        var results = Validator.validate(testData);
-        console.log(results);
-        assert.equal(typeof results, typeof {});
+    it('should have all required fields', function(){
+        var results = Validator.validate(successData);
 
+        if(results.err){
+            console.error('A required field was missing!');
+            console.log('Number of errors: ' + JSON.stringify(results.status, null, 2));
+        } else {
+            console.log('No errors!');
+        }
+        assert.equal(results.err, false);
     });
+    it('should have missing required fields', function(){
+        var results = Validator.validate(failData);
 
-    it('should take an have required fields', function(){
-        var results = Validator.validate(testData.attendee);
-        console.log(results.msg);
+        if(results.err){
+            console.error('A required field was missing!');
+            console.log('Number of errors: ' + JSON.stringify(results.status, null, 2));
+        } else {
+            console.log('No errors!');
+        }
+        assert.equal(results.err, true);
     });
 });
