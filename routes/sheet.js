@@ -182,7 +182,9 @@ router.post('/api/validate', function(req, res, next){
             workbookObj[key] = jsonSheet;
         }
     });
-    res.send(workbookObj);
+
+    var results = Validator.validate(workbookObj);
+    res.send(results);
 });
 
 module.exports = router;

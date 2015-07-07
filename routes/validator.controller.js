@@ -22,7 +22,9 @@ module.exports = {
             _.each(val, function(rowVal, rowKey){
 
                 var res = findMissingFieldSchema(rowVal, Schema[key], rowKey);
-                sheetMessages.push(res.msg);
+                if(res.msg.length>0){
+                    sheetMessages.push(res.msg);
+                }
                 // Only if a required field is missing
                 if(res.err){
                     hasError = true;
@@ -45,6 +47,7 @@ function findMissingFieldSchema(data, subschema, rowNum){
     _.each(subschema, function(schemaVal, key) {
         var value =  data[key];
         // If they have a value
+        // console.log('Data: '+value);
         if(!value){
             if(schemaVal){
                 // Check schema for the required level
@@ -54,14 +57,14 @@ function findMissingFieldSchema(data, subschema, rowNum){
                 if( level ){
                     switch( level ) {
                         case 2:
-                        //console.log('row: [' + rowNum + '] column: [' + key + '] is required!');
+                        console.log('row: [' + rowNum + '] column: [' + key + '] is required!');
                         requiredStatus.rowNum = rowNum;
                         requiredStatus.key = key;
                         requiredStatus.requiredLevel = 2;
                         hasError=true;
                         break;
                         case 1:
-                        //console.log('row: [' + rowNum + '] column: [' + key + '] is recommended, but not necessary!');
+                        console.log('row: [' + rowNum + '] column: [' + key + '] is recommended, but not necessary!');
                         requiredStatus.rowNum = rowNum;
                         requiredStatus.key = key;
                         requiredStatus.requiredLevel = 1;
