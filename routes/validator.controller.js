@@ -47,7 +47,7 @@ module.exports = {
 
             //VALIDATE ALL ARRAYS
             var results = checkGrammar();
-            if (res.msg.length > 0) {
+            if (results.msg.length > 0) {
                 sheetMessages.push(results.msg);
             }
             if (results.err) {
