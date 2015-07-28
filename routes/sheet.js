@@ -7,7 +7,7 @@ var Parse = require('parse').Parse;
 var _ = require('underscore');
 
 /* GET users listing. */
-Parse.initialize('341E4A86uPW4m5xKuTy7XvoqjjKgSuEZZ1Me0q5W','VgB990f4aE5ukT0mcu9J4JNzuQ3hevmMwqicHTr6');
+Parse.initialize('341E4A86uPW4m5xKuTy7XvoqjjKgSuEZZ1Me0q5W', 'VgB990f4aE5ukT0mcu9J4JNzuQ3hevmMwqicHTr6');
 //Parse.initialize('olCKrLaKEACbv4YLE1UUjRzVzRbAfYoatW8SH4S6','jCoQ3IDnzNm2qmxD2fsZpfpZhMgREWXWdHAVU5fg');
 var Mapper = require('./mapper').Mapper(Parse);
 
@@ -21,10 +21,12 @@ router.post('/api/import', function(req, res, next) {
     var wbPromises = [];
     var file = req.files.file;
 
-    if(!file){ return res.sendRequest(400, "File missing!"); }
+    if (!file) {
+        return res.sendStatus(400);
+    }
 
     conference.id = req.body.conference || 'yVEOkRMQ5w';
-    console.log("ConId"+ conference.id);
+    console.log("ConId" + conference.id);
 
     var workbook = XLSX.readFile(file.path);
 
@@ -32,9 +34,11 @@ router.post('/api/import', function(req, res, next) {
     var worksheet1 = workbook.Sheets['Attendee'];
     var jsonSheet1 = XLSX.utils.sheet_to_json(worksheet1);
     // Check if Sheet is empty
-    if(jsonSheet1.length>0){
-        var p1 = Mapper(conference, jsonSheet1, 'Attendee', function(data, err){
-            if(err) {return console.log("Error");}
+    if (jsonSheet1.length > 0) {
+        var p1 = Mapper(conference, jsonSheet1, 'Attendee', function(data, err) {
+            if (err) {
+                return console.log("Error");
+            }
             console.log("Success Saved Attednee");
         });
         wbPromises.push(p1);
@@ -46,9 +50,11 @@ router.post('/api/import', function(req, res, next) {
     var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
 
     // Check if Sheet is empty
-    if(jsonSheet2.length>0){
-        var p2 = Mapper(conference, jsonSheet2, 'Speaker', function(data, err){
-            if(err) {return console.log("Error");}
+    if (jsonSheet2.length > 0) {
+        var p2 = Mapper(conference, jsonSheet2, 'Speaker', function(data, err) {
+            if (err) {
+                return console.log("Error");
+            }
             console.log("Success Saved Speaker");
         });
         wbPromises.push(p2);
@@ -58,9 +64,11 @@ router.post('/api/import', function(req, res, next) {
     var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
 
     // Check if Sheet is empty
-    if(jsonSheet3.length>0){
-        var p3 = Mapper(conference, jsonSheet3, 'Session', function(data, err){
-            if(err) {return console.log("Error");}
+    if (jsonSheet3.length > 0) {
+        var p3 = Mapper(conference, jsonSheet3, 'Session', function(data, err) {
+            if (err) {
+                return console.log("Error");
+            }
             console.log("Success Saved Session");
         });
         wbPromises.push(p3);
@@ -70,11 +78,11 @@ router.post('/api/import', function(req, res, next) {
     var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
 
     // Check if Sheet is empty
-    if(jsonSheet4.length>0){
+    if (jsonSheet4.length > 0) {
         var p4 = new Parse.Promise();
-        Parse.Promise.when([p2,p3]).then(function(){
-            Mapper(conference, jsonSheet4, 'Event', function(data, err){
-                if(err) {
+        Parse.Promise.when([p2, p3]).then(function() {
+            Mapper(conference, jsonSheet4, 'Event', function(data, err) {
+                if (err) {
                     p4.reject(err);
                     return console.log("Error");
                 }
@@ -90,9 +98,11 @@ router.post('/api/import', function(req, res, next) {
     var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
 
     // Check if Sheet is empty
-    if(jsonSheet5.length>0){
-        var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function(data, err){
-            if(err) {return console.log("Error");}
+    if (jsonSheet5.length > 0) {
+        var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function(data, err) {
+            if (err) {
+                return console.log("Error");
+            }
             console.log("Success Saved Sponsor");
         });
         wbPromises.push(p5);
@@ -101,17 +111,17 @@ router.post('/api/import', function(req, res, next) {
 
 
 
-    Parse.Promise.when(wbPromises).then(function(){
+    Parse.Promise.when(wbPromises).then(function() {
         console.log("Saves Finished");
         console.log(">>>>>>>>>> Generating Discussion Boards...");
-        createDiscussionBoards(conference.id, function(error, data){
-            if(error){
+        createDiscussionBoards(conference.id, function(error, data) {
+            if (error) {
                 res.sendStatus(400);
             } else {
                 res.sendStatus(200);
             }
         });
-    }).fail(function(){
+    }).fail(function() {
         console.log("One or more attempt to save has failed!");
         res.sendStatus(400);
     });
@@ -119,13 +129,15 @@ router.post('/api/import', function(req, res, next) {
 });
 
 // Placeholder just to show that its working
-router.get('/', function(req, res, next){
-    res.render('index',{title:'File Upload'});
+router.get('/', function(req, res, next) {
+    res.render('index', {
+        title: 'File Upload'
+    });
 });
 
 /**
-* Creates Discussion Board
-*/
+ * Creates Discussion Board
+ */
 function createDiscussionBoards(conId, cb) {
     var Con = Parse.Object.extend('Conference');
     var con = new Con();
@@ -143,9 +155,9 @@ function createDiscussionBoards(conId, cb) {
             data.forEach(function(val, key) {
                 var Board = Parse.Object.extend("DiscussionBoard");
                 var board = new Board();
-                board.set('conference',con);// Add Conference pointer
-                board.set('hasQuestions',false);// Add Conference pointer
-                board.set('event', data[key]);// Add Event pointer
+                board.set('conference', con); // Add Conference pointer
+                board.set('hasQuestions', false); // Add Conference pointer
+                board.set('event', data[key]); // Add Event pointer
                 data[key].set('board', board);
             });
             list = data;
@@ -169,16 +181,18 @@ function createDiscussionBoards(conId, cb) {
 
 
 var Validator = require('./validator.controller');
-router.post('/api/validate', function(req, res, next){
+router.post('/api/validate', function(req, res, next) {
     var file = req.files.file;
-    if(!file){ return res.sendRequest(400, "File missing!"); }
+    if (!file) {
+        return res.sendStatus(400);
+    }
     var workbook = XLSX.readFile(file.path);
 
 
     var workbookObj = {};
-    _.each(workbook.Sheets, function(val, key){
+    _.each(workbook.Sheets, function(val, key) {
         var jsonSheet = XLSX.utils.sheet_to_json(val);
-        if(jsonSheet.length>0){
+        if (jsonSheet.length > 0) {
             workbookObj[key] = jsonSheet;
         }
     });
