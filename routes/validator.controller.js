@@ -83,14 +83,14 @@ function findMissingFieldSchema(data, subschema, rowNum) {
                     switch (level) {
                         case 2:
                             console.log('row: [' + rowNum + '] column: [' + key + '] is required!');
-                            requiredStatus.rowNum = rowNum + 1;
+                            requiredStatus.rowNum = rowNum + 2;
                             requiredStatus.key = key;
                             requiredStatus.requiredLevel = 2;
                             hasError = true;
                             break;
                         case 1:
                             console.log('row: [' + rowNum + '] column: [' + key + '] is recommended, but not necessary!');
-                            requiredStatus.rowNum = rowNum + 1;
+                            requiredStatus.rowNum = rowNum + 2;
                             requiredStatus.key = key;
                             requiredStatus.requiredLevel = 1;
                             break;
