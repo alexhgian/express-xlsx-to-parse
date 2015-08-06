@@ -60,6 +60,11 @@ module.exports = {
     }
 
     sheetObject['Grammar'] = sheetMessages;
+  
+    eventTracks = [];
+    tracksDict = [];
+    eventSpeakers = [];
+    speakersDict = [];
 
     return {
       status: sheetObject,
