@@ -60,7 +60,7 @@ module.exports = {
     }
 
     sheetObject['Grammar'] = sheetMessages;
-  
+
     eventTracks = [];
     tracksDict = [];
     eventSpeakers = [];
@@ -147,6 +147,17 @@ function checkGrammar() {
   var hasError = false;
   var messageString = [];
 
+  //Trim ALL
+  eventTracks = eventTracks.map(function(s) {
+    return s.trim();
+  });
+  tracksDict = tracksDict.map(function(s) {
+    return s.trim();
+  });
+  speakersDict = speakersDict.map(function(s) {
+    return s.trim();
+  });
+
   //Validate Tracks
   _.each(eventTracks, function(track) {
     _.each(tracksDict, function(t) {
@@ -183,8 +194,9 @@ function checkGrammar() {
       });
       if (checkSpeaker === false) {
         hasError = true;
-        if (s !== 'N/A')
+        if (s !== 'N/A'){
           messageString.push(s);
+        }
         console.log('CHECK SPEAKER  ' + s + ' FALSE');
       } else {
         checkSpeaker = false;
