@@ -109,6 +109,21 @@ router.post('/api/import', function(req, res, next) {
         // Collect the promises
     }
 
+    var worksheet6 = workbook.Sheets['TravelBusiness'];
+    var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
+
+    // Check if Sheet is empty
+    if (jsonSheet6.length > 0) {
+        var p6 = Mapper(conference, jsonSheet6, 'TravelBusiness', function(data, err) {
+            if (err) {
+                return console.log("Error");
+            }
+            console.log("Success Saved Sponsor");
+        });
+        wbPromises.push(p6);
+        // Collect the promises
+    }
+
 
 
     Parse.Promise.when(wbPromises).then(function() {
