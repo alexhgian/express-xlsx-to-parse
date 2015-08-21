@@ -95,5 +95,18 @@ exports.Schema = {
             type : 'File',
             parseName : 'logo'
         }
+    },
+    TravelBusiness: {
+        collectionName : 'TravelBusiness',
+        primaryKey: 'businessName',
+        businessName: 'String',
+        address: 'String',
+        businessType: 'String',
+        otherDetails: 'String',
+        ReservationAndRates : {
+            parseName : 'rates',
+            type : 'String'
+        },
+        website: 'String'
     }
-}
+};
