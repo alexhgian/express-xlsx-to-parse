@@ -122,5 +122,15 @@ module.exports = {
       type: String,
       requiredLevel: 2
     }
+  },
+  TravelBusiness: {
+    businessName: {
+      type: String,
+      requiredLevel: 2
+    },
+    businessType: {
+      type: String,
+      requiredLevel: 2
+    }
   }
 };
