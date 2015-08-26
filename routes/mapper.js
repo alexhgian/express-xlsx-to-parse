@@ -118,10 +118,9 @@ exports.Mapper = function(Parse) {
                         // String and Number
                         case 'String':
                         if(key === 'otherDetails'){
-                            console.log('OTHER DETAILSSSSS')
-                            val.replace(/[\n]+/g, ' ');
-                            val.replace(/[\.]+/g, '.\n\n');
-                            val.replace(/[\u2022]+/g, '\n\u2022');
+                            val = val.replace(/[\n]+/g, ' ');
+                            val = val.replace(/[\.]+/g, '.\n\n');
+                            val = val.replace(/[\u2022]+/g, '\n\u2022');
                         }
                         col.set(field.parseName || key, val);
                         break;
