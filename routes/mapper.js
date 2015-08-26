@@ -117,7 +117,8 @@ exports.Mapper = function(Parse) {
                     switch(field.type || field){
                         // String and Number
                         case 'String':
-                        if(key == 'otherDetails'){
+                        if(key === 'otherDetails'){
+                            console.log('OTHER DETAILSSSSS')
                             val.replace(/[\n]+/g, ' ');
                             val.replace(/[\.]+/g, '.\n\n');
                             val.replace(/[\u2022]+/g, '\n\u2022');
