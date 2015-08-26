@@ -117,6 +117,11 @@ exports.Mapper = function(Parse) {
                     switch(field.type || field){
                         // String and Number
                         case 'String':
+                        if(key === 'otherDetails'){
+                            val.replace(/[\n]+/g, ' ');
+                            val.replace(/[\.]+/g, '.\n\n');
+                            val.replace(/[\u2022]+/g, '\n\u2022');
+                        }
                         col.set(field.parseName || key, val);
                         break;
                         case 'Number':
