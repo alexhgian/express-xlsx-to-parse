@@ -119,6 +119,7 @@ exports.Mapper = function(Parse) {
                         case 'String':
                         if(key === 'otherDetails'){
                             val = val.replace(/[\n]+/g, ' ');
+                            val = val.replace(/  +/g, ' ');
                             val = val.replace(/[\.]+/g, '.\n\n');
                             val = val.replace(/[\u2022]+/g, '\n\u2022');
                         }
