@@ -118,6 +118,8 @@ exports.Mapper = function(Parse) {
                         // String and Number
                         case 'String':
                         if(key === 'otherDetails'){
+                            val = val.replace(/[p.m]+/g, 'pm');
+                            val = val.replace(/[a.m]+/g, 'am');
                             val = val.replace(/[\n]+/g, ' ');
                             val = val.replace(/  +/g, ' ');
                             val = val.replace(/[\.]+/g, '.\n\n');
