@@ -118,7 +118,7 @@ module.exports = {
       type: String,
       requiredLevel: 1
     }
-  },
+  }
  /* TravelBusiness: {
     businessName: {
       type: String,
