@@ -89,7 +89,10 @@ exports.Schema = {
         primaryKey: 'name',
         order: 'Number',
         name: 'String',
-        type: 'String',
+        Sponsoring: {
+            parseName : 'type',
+            type : 'String'
+        },
         website: 'String',
         logoName : {
             type : 'File',
