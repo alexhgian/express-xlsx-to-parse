@@ -41,6 +41,7 @@ module.exports = {
 
         //CONSTANT GRAMMAR
         getData(key, rowVal, Schema[key], rowKey);
+        console.log('MARKER')
 
       });
 
