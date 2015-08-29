@@ -89,7 +89,7 @@ exports.Schema = {
         primaryKey: 'name',
         order: 'Number',
         name: 'String',
-        Sponsoring: {
+        sponsoring: {
             parseName : 'type',
             type : 'String'
         },
@@ -106,7 +106,7 @@ exports.Schema = {
         address: 'String',
         businessType: 'String',
         otherDetails: 'String',
-        ReservationAndRates : {
+        reservationAndRates : {
             parseName : 'rates',
             type : 'String'
         },
