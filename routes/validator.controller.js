@@ -48,8 +48,6 @@ module.exports = {
         });
 
 
-        console.log('STILL RUNNING ????');
-
         //VALIDATE ALL ARRAYS
         var results = checkGrammar();
         var sheetMessages = [];
@@ -125,15 +123,17 @@ function findMissingFieldSchema(data, subschema, rowNum) {
 function getData(masterKey, data, subschema, rowNum) {
     _.each(subschema, function (schemaVal, key) {
         //console.log(key);
-        if (masterKey === 'Session' && key === 'Track') {
-            tracksDict.push(data[key]);
-        } else if (masterKey === 'Speaker' && key === 'Name') {
-            speakersDict.push(data[key]);
-        } else if (masterKey === 'Event') {
-            if (key === 'Track') {
-                eventTracks.push(data[key]);
-            } else if (key === 'Speakers') {
-                eventSpeakers.push(data[key]);
+        if(data[key]) {
+            if (masterKey === 'Session' && key === 'Track') {
+                tracksDict.push(data[key]);
+            } else if (masterKey === 'Speaker' && key === 'Name') {
+                speakersDict.push(data[key]);
+            } else if (masterKey === 'Event') {
+                if (key === 'Track') {
+                    eventTracks.push(data[key]);
+                } else if (key === 'Speakers') {
+                    eventSpeakers.push(data[key]);
+                }
             }
         }
     });
