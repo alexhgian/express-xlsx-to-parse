@@ -119,7 +119,7 @@ module.exports = {
       requiredLevel: 1
     }
   },
-  TravelBusiness: {
+ /* TravelBusiness: {
     businessName: {
       type: String,
       requiredLevel: 2
@@ -128,5 +128,5 @@ module.exports = {
       type: String,
       requiredLevel: 2
     }
-  }
+  }*/
 };
