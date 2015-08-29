@@ -41,16 +41,15 @@ module.exports = {
 
         //CONSTANT GRAMMAR
         getData(key, rowVal, Schema[key], rowKey);
-        console.log('MARKER')
 
       });
 
       sheetObject[key] = sheetMessages;
 
-
     });
 
     //VALIDATE ALL ARRAYS
+    console.log('MARKER')
     var results = checkGrammar();
     var sheetMessages = [];
     if (results.msg.length > 0) {
