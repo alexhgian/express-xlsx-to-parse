@@ -117,10 +117,6 @@ module.exports = {
     Website: {
       type: String,
       requiredLevel: 2
-    },
-    logoName: {
-      type: String,
-      requiredLevel: 2
     }
   },
   TravelBusiness: {
