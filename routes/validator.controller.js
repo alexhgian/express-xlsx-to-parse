@@ -45,11 +45,11 @@ module.exports = {
             });
 
             sheetObject[key] = sheetMessages;
+            console.log('MARKER')
 
         });
 
         //VALIDATE ALL ARRAYS
-        console.log('MARKER')
         var results = checkGrammar();
         var sheetMessages = [];
         if (results.msg.length > 0) {
