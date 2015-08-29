@@ -1,5 +1,4 @@
 # express-xlsx-to-parse
-
 License (MIT)   
 ------
 Copyright (c) 2015 Alex Gian alexhgian@gmail.com
