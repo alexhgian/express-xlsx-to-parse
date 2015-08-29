@@ -110,9 +110,9 @@ module.exports = {
       type: String,
       requiredLevel: 2
     },
-    Type: {
+    Sponsoring: {
       type: String,
-      requiredLevel: 2
+      requiredLevel: 1
     },
     Website: {
       type: String,
