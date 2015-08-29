@@ -45,9 +45,10 @@ module.exports = {
             });
 
             sheetObject[key] = sheetMessages;
-            console.log('MARKER' + key);
-
         });
+
+
+        console.log('STILL RUNNING ????');
 
         //VALIDATE ALL ARRAYS
         var results = checkGrammar();
