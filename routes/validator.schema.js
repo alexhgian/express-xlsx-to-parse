@@ -118,15 +118,19 @@ module.exports = {
       type: String,
       requiredLevel: 1
     }
-  }
- /* TravelBusiness: {
+  },
+  TravelBusiness: {
     businessName: {
       type: String,
       requiredLevel: 2
     },
+    address: String,
     businessType: {
       type: String,
       requiredLevel: 2
-    }
-  }*/
+    },
+    otherDetails: String,
+    ReservationAndRates: String,
+    website: String
+  }
 };
