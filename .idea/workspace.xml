@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b9cdb35f-ab15-4fc5-aafa-6fa41f47604e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="b9cdb35f-ab15-4fc5-aafa-6fa41f47604e" name="Default" comment="" />
     <ignored path="express-xlsx-to-parse.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -57,11 +55,9 @@
       <file leaf-file-name="validator.schema.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/validator.schema.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.78533095">
-              <caret line="130" column="5" selection-start-line="130" selection-start-column="5" selection-end-line="130" selection-end-column="5" />
-              <folding>
-                <marker date="1440821787000" expanded="true" signature="1928:2097" placeholder="/*...*/" />
-              </folding>
+            <state vertical-scroll-proportion="0.62432915">
+              <caret line="124" column="22" selection-start-line="124" selection-start-column="22" selection-end-line="124" selection-end-column="22" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -337,11 +333,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/validator.schema.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78533095">
-          <caret line="130" column="5" selection-start-line="130" selection-start-column="5" selection-end-line="130" selection-end-column="5" />
-          <folding>
-            <marker date="1440821787000" expanded="true" signature="1928:2097" placeholder="/*...*/" />
-          </folding>
+        <state vertical-scroll-proportion="0.62432915">
+          <caret line="124" column="22" selection-start-line="124" selection-start-column="22" selection-end-line="124" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
