@@ -4,7 +4,7 @@ exports.Schema = {
     Speaker : {
         collectionName : 'Attendee',
         primaryKey : 'name',
-        image : 'File',
+        imageFileName : 'File',
         name : 'String',
         bio : 'String',
         email : 'String',
@@ -41,7 +41,7 @@ exports.Schema = {
             type : 'String',
             parseName : 'title'
         },
-        affiliation : 'String',
+        organization : 'String',
         isSpeaker : {
             type : 'Boolean',
             default: false
