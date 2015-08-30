@@ -17,14 +17,8 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        Bio: {
-            type: String,
-            requiredLevel: 1
-        },
-        Organization: {
-            type: String,
-            requiredLevel: 1
-        }
+        Bio: String,
+        Organization: String
     },
     Session: {
         Track: {
