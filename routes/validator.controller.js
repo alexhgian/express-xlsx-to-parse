@@ -170,7 +170,9 @@ function checkGrammar() {
         if (checkTrack === false) {
             hasError = true;
             console.log('CHECK TRACK  ' + track + ' FALSE');
-            messageString.push(track);
+            messageString.push({
+                "track": track
+            });
         } else {
             checkTrack = false;
         }
@@ -196,7 +198,9 @@ function checkGrammar() {
             if (checkSpeaker === false) {
                 hasError = true;
                 if (s !== 'N/A') {
-                    messageString.push(s);
+                    messageString.push({
+                        'speaker': s
+                    });
                 }
                 console.log('CHECK SPEAKER  ' + s + ' FALSE');
             } else {
