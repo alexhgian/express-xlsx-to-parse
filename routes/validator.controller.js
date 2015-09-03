@@ -123,16 +123,16 @@ function findMissingFieldSchema(data, subschema, rowNum) {
 function getData(masterKey, data, subschema, rowNum) {
     _.each(subschema, function (schemaVal, key) {
         //console.log(key);
-        if(data[key]) {
+        if (data[key]) {
             if (masterKey === 'Session' && key === 'Track') {
                 tracksDict.push(data[key]);
             } else if (masterKey === 'Speaker' && key === 'Name') {
                 speakersDict.push(data[key]);
             } else if (masterKey === 'Event') {
                 if (key === 'Track') {
-                    eventTracks.push(data[key]);
+                    eventTracks.push({"word": data[key], "rowNum": rowNum});
                 } else if (key === 'Speakers') {
-                    eventSpeakers.push(data[key]);
+                    eventSpeakers.push({"word": data[key], "rowNum": rowNum});
                 }
             }
         }
@@ -149,9 +149,10 @@ function checkGrammar() {
     var messageString = [];
 
     //Trim ALL
-    eventTracks = eventTracks.map(function (s) {
-        return s.trim();
+    _.each(eventTracks, function(s){
+        s.word = s.word.trim();
     });
+
     tracksDict = tracksDict.map(function (s) {
         return s.trim();
     });
@@ -162,16 +163,17 @@ function checkGrammar() {
     //Validate Tracks
     _.each(eventTracks, function (track) {
         _.each(tracksDict, function (t) {
-            if (track === t) {
+            if (track.word === t) {
                 checkTrack = true;
-                console.log('CHECK TRACK  ' + track + ' ' + t + ' TRUE');
+                console.log('CHECK TRACK  ' + track.word + ' ' + t + ' TRUE');
             }
         });
         if (checkTrack === false) {
             hasError = true;
-            console.log('CHECK TRACK  ' + track + ' FALSE');
+            console.log('CHECK TRACK  ' + track.word + ' FALSE');
             messageString.push({
-                "track": track
+                'track': track.word,
+                'rowNum': track.rowNum
             });
         } else {
             checkTrack = false;
@@ -182,7 +184,7 @@ function checkGrammar() {
     _.each(eventSpeakers, function (speakers) {
 
         //Tokenize Speakers
-        var sp = speakers.split(',');
+        var sp = speakers.word.split(',');
         //Iterate sp remove whitespace
         sp = sp.map(function (s) {
             return s.trim();
@@ -199,7 +201,8 @@ function checkGrammar() {
                 hasError = true;
                 if (s !== 'N/A') {
                     messageString.push({
-                        'speaker': s
+                        'speaker': s,
+                        'rowNum': speakers.rowNum
                     });
                 }
                 console.log('CHECK SPEAKER  ' + s + ' FALSE');
