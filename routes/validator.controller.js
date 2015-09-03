@@ -130,9 +130,9 @@ function getData(masterKey, data, subschema, rowNum) {
                 speakersDict.push(data[key]);
             } else if (masterKey === 'Event') {
                 if (key === 'Track') {
-                    eventTracks.push({"word": data[key], "rowNum": rowNum});
+                    eventTracks.push({"word": data[key], "rowNum": rowNum + 2});
                 } else if (key === 'Speakers') {
-                    eventSpeakers.push({"word": data[key], "rowNum": rowNum});
+                    eventSpeakers.push({"word": data[key], "rowNum": rowNum + 2});
                 }
             }
         }
