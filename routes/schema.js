@@ -31,7 +31,6 @@ exports.Schema = {
             parseName : 'image'
         },
         name : 'String',
-        bio : 'String',
         email : 'String',
         professionalTitle : {
             parseName : 'job',

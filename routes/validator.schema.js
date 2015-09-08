@@ -17,7 +17,6 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        Bio: String,
         Organization: String
     },
     Session: {
