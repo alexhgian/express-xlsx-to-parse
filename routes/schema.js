@@ -68,7 +68,10 @@ exports.Schema = {
         collectionName : 'Session',
         primaryKey : 'startTime',
         key : 'String', // A Combination of name + track use for search
-        trackSessionName : 'String',
+        trackSessionName : {
+            parseName : 'track',
+            type : 'String'
+        },
         startTime : 'Date',
         endTime : 'Date',
         moderator : 'String' ,
@@ -83,7 +86,7 @@ exports.Schema = {
             parseName : 'type',
             type : 'String'
         },
-        website: 'String',
+        website: 'String'
     },
     TravelBusiness: {
         collectionName : 'TravelBusiness',
