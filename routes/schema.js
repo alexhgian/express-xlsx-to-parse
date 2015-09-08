@@ -54,7 +54,7 @@ exports.Schema = {
             type : 'Pointer',
             parseName : 'session',
             pointerTo : 'Session',
-            query : 'trackSessionName'// Which field in Session to look at
+            query : 'track'// Which field in Session to look at
         },
         startTime : 'Date',
         endTime : 'Date',
