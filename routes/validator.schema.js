@@ -20,7 +20,7 @@ module.exports = {
         Organization: String
     },
     Session: {
-        Track: {
+        TrackSessionName: {
             type: String,
             requiredLevel: 2
         },
@@ -42,11 +42,11 @@ module.exports = {
         }
     },
     Event: {
-        Talk: {
+        TalkIndividualEvents: {
             type: String,
             requiredLevel: 2
         },
-        Track: {
+        TrackSessionName: {
             type: String,
             requiredLevel: 2
         },
