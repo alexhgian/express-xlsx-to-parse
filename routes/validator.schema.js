@@ -115,6 +115,9 @@ module.exports = {
         },
         otherDetails: String,
         ReservationAndRates: String,
-        website: String
+        website: {
+            type: String,
+            requiredLevel: 2
+        }
     }
 };
