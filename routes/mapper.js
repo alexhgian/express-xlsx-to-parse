@@ -154,8 +154,8 @@ exports.Mapper = function (Parse) {
                                 }
                                 if(key === 'middleName'){
                                     spkName = spkName.split(' ');
-                                    sp = '';
-                                    for(i = 1; i<spkN.length ; i++){
+                                    var sp = '';
+                                    for(var i = 1; i<spkName.length ; i++){
                                         sp += ' ' + spkName[i];
                                     }
                                     sp += ' ' +spkName[0];
