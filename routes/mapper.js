@@ -146,10 +146,11 @@ exports.Mapper = function (Parse) {
                                 if(key === 'middleName'){
                                     var spkF = '';
                                     var spks = spkName.split(' ');
+                                    console.log (spks.length);
                                     if(spks.length === 3){
                                         spkF = spks[1] + ' ' + spks[2] + ' ' + spks[0];
                                     }
-                                    else if(spks.length === 2){
+                                    else {
                                         spkF = spks[1] + ' ' + spks[0];
                                     }
                                     col.set('name', spkF.trim());
