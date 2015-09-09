@@ -67,7 +67,7 @@ exports.Schema = {
         speakers : {
             type : 'Relation',
             pointerTo : 'Attendee',
-            query : 'name'
+            query : 'email'
         }
     },
     Session : {
