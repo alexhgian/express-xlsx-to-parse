@@ -112,7 +112,7 @@ module.exports = {
         },
         Website: {
             type: String,
-            requiredLevel: 1
+            requiredLevel: 2
         }
     },
     TravelBusiness: {
