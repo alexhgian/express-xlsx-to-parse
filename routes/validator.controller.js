@@ -128,7 +128,7 @@ function getData(masterKey, data, subschema, rowNum) {
             if (masterKey === 'Session' && key === 'TrackSessionName') {
                 tracksDict.push(data[key]);
             } else if (masterKey === 'Speaker' && key.indexOf('Name')>-1) {
-                name += data[key].trim();
+                name += ' ' + data[key].trim();
                 if(key === "lastName") {
                     speakersDict.push(name);
                 }
