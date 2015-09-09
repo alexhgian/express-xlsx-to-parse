@@ -160,6 +160,10 @@ exports.Mapper = function (Parse) {
                                     }
                                     sp += ' ' +spkName[0];
                                     col.set('name', sp.trim());
+                                    //HACK
+                                    if(spkName.length === 4){
+                                        col.set('name', spkName[1] + spkName[2] +spkName[3] + spkName[0]);
+                                    }
                                     spkName = '';
                                 }
                             }
