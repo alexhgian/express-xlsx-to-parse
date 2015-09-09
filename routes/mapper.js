@@ -146,17 +146,19 @@ exports.Mapper = function (Parse) {
                                 if(key === 'firstName'){
                                     var spkN = spkName.split(' ');
                                     var sp = '';
-                                    for(var i = spkN.length -1; i>=0 ; i--){
-                                        sp += ' ' + spkName[i];
+                                    for(var i = 1; i<spkN.length ; i++){
+                                        sp += ' ' + spkN[i];
                                     }
+                                    sp += ' ' + spkN[0];
                                     col.set('name', sp.trim());
                                 }
                                 if(key === 'middleName'){
                                     spkName = spkName.split(' ');
-                                    var sp = '';
-                                    for(var i = spkName.length -1; i>=0 ; i--){
+                                    sp = '';
+                                    for(i = 1; i<spkN.length ; i++){
                                         sp += ' ' + spkName[i];
                                     }
+                                    sp += ' ' +spkName[0];
                                     col.set('name', sp.trim());
                                     spkName = '';
                                 }
