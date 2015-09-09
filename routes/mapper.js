@@ -210,6 +210,7 @@ exports.Mapper = function (Parse) {
                      **************************************/
                         case 'Relation':
                             _.forEach(val.split(','), function (rVal, rKey) {
+                                rVal = rVal.trim();
                                 var sPromise = ParseUtil.find(field.query || "name", rVal, field.pointerTo, function (data, err) {
                                     if (err) {
                                         return err;
