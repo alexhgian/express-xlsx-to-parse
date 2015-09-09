@@ -134,7 +134,7 @@ exports.Mapper = function (Parse) {
                             if(key.indexOf('Name')>-1){
                                 spkName = spkName + ' ' + val.trim();
                                 if(key === 'lastName'){
-                                    col.set('name', val);
+                                    col.set('name', spkName);
                                     spkName = '';
                                 }
                             }
