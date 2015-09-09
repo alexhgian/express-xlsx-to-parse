@@ -131,6 +131,11 @@ exports.Mapper = function (Parse) {
                             if (key === 'bio'){
                                 val = val.replace(/[\n]+/g, ' ');
                             }
+                            if (key === 'website' || key === 'Website'){
+                                if (val && (val.charAt(0)) !== 'h') {
+                                    val = 'http://' + val;
+                                }
+                            }
                             if(key.indexOf('Name')>-1){
                                 if(key === 'firstName'){
                                     spkName = spkName + val.trim();
