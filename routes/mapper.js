@@ -144,7 +144,6 @@ exports.Mapper = function (Parse) {
                                     spkName = spkName + ' ' + val.trim();
                                 }
                                 if(key === 'middleName'){
-                                    console.log(spkName);
                                     spkName = spkName.split(' ');
                                     col.set('name', spkName[1] + ' ' + spkName[2] + ' ' + spkName[0]);
                                     spkName = '';

@@ -4,9 +4,9 @@ exports.Schema = {
     Speaker : {
         collectionName : 'Attendee',
         primaryKey : 'email',
+        lastName : 'String',
         firstName : 'String',
         middleName : 'String',
-        lastName : 'String',
         bio : 'String',
         email : 'String',
         professionalTitle : {
@@ -28,9 +28,9 @@ exports.Schema = {
     Attendee : {
         collectionName : 'Attendee',
         primaryKey : 'email',
+        lastName : 'String',
         firstName : 'String',
         middleName : 'String',
-        lastName : 'String',
         email : 'String',
         professionalTitle : {
             parseName : 'job',
