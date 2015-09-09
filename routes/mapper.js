@@ -137,14 +137,19 @@ exports.Mapper = function (Parse) {
                                 }
                             }
                             if(key.indexOf('Name')>-1){
-                                if(key === 'firstName'){
+                                if(key === 'lastName'){
                                     spkName = spkName + val.trim();
 
                                 } else{
                                     spkName = spkName + ' ' + val.trim();
                                 }
-                                if(key === 'lastName'){
-                                    col.set('name', spkName);
+                                if(key === 'firstName'){
+                                    var spkF = '';
+                                    var spks = spkName.split(' ');
+                                    for(var i = spks.length-1; i>=0 ; i--){
+                                        spkF += ' ' + spks[i];
+                                    }
+                                    col.set('name', spkF.trim());
                                     spkName = '';
                                 }
                             }
