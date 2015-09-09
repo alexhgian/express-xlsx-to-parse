@@ -143,6 +143,10 @@ exports.Mapper = function (Parse) {
                                 } else{
                                     spkName = spkName + ' ' + val.trim();
                                 }
+                                if(key === 'firstName'){
+                                    spkName = spkName.split(' ');
+                                    col.set('name', spkName[1] + ' ' + spkName[0]);
+                                }
                                 if(key === 'middleName'){
                                     spkName = spkName.split(' ');
                                     col.set('name', spkName[1] + ' ' + spkName[2] + ' ' + spkName[0]);
