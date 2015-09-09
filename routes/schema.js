@@ -50,7 +50,7 @@ exports.Schema = {
     },
     Event : {
         collectionName : 'Event',
-        primaryKey : 'startTime',
+        primaryKey : 'talkIndividualEvents',
         key: 'String',
         talkIndividualEvents :{
             type : 'String',
