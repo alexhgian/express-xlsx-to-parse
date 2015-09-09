@@ -3,8 +3,10 @@
 exports.Schema = {
     Speaker : {
         collectionName : 'Attendee',
-        primaryKey : 'name',
-        name : 'String',
+        primaryKey : 'email',
+        firstName : 'String',
+        middleName : 'String',
+        lastName : 'String',
         bio : 'String',
         email : 'String',
         professionalTitle : {
@@ -16,6 +18,7 @@ exports.Schema = {
             parseName : 'title' // the actual parse db name
         },
         organization: 'String',
+        location: 'String',
         isSpeaker : {
             type : 'Boolean',
             default: true
@@ -24,8 +27,10 @@ exports.Schema = {
     },
     Attendee : {
         collectionName : 'Attendee',
-        primaryKey : 'name',
-        name : 'String',
+        primaryKey : 'email',
+        firstName : 'String',
+        middleName : 'String',
+        lastName : 'String',
         email : 'String',
         professionalTitle : {
             parseName : 'job',
@@ -36,6 +41,7 @@ exports.Schema = {
             parseName : 'title'
         },
         organization : 'String',
+        location: 'String',
         isSpeaker : {
             type : 'Boolean',
             default: false

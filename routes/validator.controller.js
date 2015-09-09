@@ -123,13 +123,17 @@ function findMissingFieldSchema(data, subschema, rowNum) {
 function getData(masterKey, data, subschema, rowNum) {
     _.each(subschema, function (schemaVal, key) {
         //console.log(key);
+        var name = '';
         if (data[key]) {
-            if (masterKey === 'Session' && key === 'Track') {
+            if (masterKey === 'Session' && key === 'TrackSessionName') {
                 tracksDict.push(data[key]);
-            } else if (masterKey === 'Speaker' && key === 'Name') {
-                speakersDict.push(data[key]);
+            } else if (masterKey === 'Speaker' && key.indexOf('Name')>-1) {
+                name += ' ' + data[key].trim();
+                if(key === "lastName") {
+                    speakersDict.push(name);
+                }
             } else if (masterKey === 'Event') {
-                if (key === 'Track') {
+                if (key === 'TrackSessionName') {
                     eventTracks.push({"word": data[key], "rowNum": rowNum + 2});
                 } else if (key === 'Speakers') {
                     eventSpeakers.push({"word": data[key], "rowNum": rowNum + 2});

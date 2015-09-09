@@ -5,7 +5,15 @@
 module.exports = {
     Attendee: {
         ProfessionalTitle: String,
-        Name: {
+        firstName: {
+            type: String,
+            requiredLevel: 2
+        },
+        middleName: {
+            type: String,
+            requiredLevel: 2
+        },
+        lastName: {
             type: String,
             requiredLevel: 2
         },
@@ -17,7 +25,8 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        Organization: String
+        Organization: String,
+        Location: String
     },
     Session: {
         TrackSessionName: {
@@ -68,7 +77,15 @@ module.exports = {
             type: String,
             requiredLevel: 1
         },
-        Name: {
+        firstName: {
+            type: String,
+            requiredLevel: 2
+        },
+        middleName: {
+            type: String,
+            requiredLevel: 2
+        },
+        lastName: {
             type: String,
             requiredLevel: 2
         },
@@ -87,7 +104,8 @@ module.exports = {
         Organization: {
             type: String,
             requiredLevel: 1
-        }
+        },
+        Location: String
     },
     Sponsor: {
         Name: {
