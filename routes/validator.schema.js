@@ -9,10 +9,7 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        middleName: {
-            type: String,
-            requiredLevel: 2
-        },
+        middleName: String,
         lastName: {
             type: String,
             requiredLevel: 2
@@ -81,10 +78,7 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        middleName: {
-            type: String,
-            requiredLevel: 2
-        },
+        middleName: String,
         lastName: {
             type: String,
             requiredLevel: 2

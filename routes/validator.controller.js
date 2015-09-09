@@ -121,16 +121,17 @@ function findMissingFieldSchema(data, subschema, rowNum) {
 
 
 function getData(masterKey, data, subschema, rowNum) {
+    var name = '';
     _.each(subschema, function (schemaVal, key) {
         //console.log(key);
-        var name = '';
         if (data[key]) {
             if (masterKey === 'Session' && key === 'TrackSessionName') {
                 tracksDict.push(data[key]);
             } else if (masterKey === 'Speaker' && key.indexOf('Name')>-1) {
-                name += ' ' + data[key].trim();
+                name = name + ' ' + data[key].trim();
                 if(key === "lastName") {
                     speakersDict.push(name);
+                    name = '';
                 }
             } else if (masterKey === 'Event') {
                 if (key === 'TrackSessionName') {
