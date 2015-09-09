@@ -106,7 +106,7 @@ exports.Mapper = function (Parse) {
             }
         });
 
-
+        var spkName = '';
         // Start mapping the rows
         _.forEach(rowData, function (val, key) {
             var field = schema[key];
@@ -130,6 +130,13 @@ exports.Mapper = function (Parse) {
                             }
                             if (key === 'bio'){
                                 val = val.replace(/[\n]+/g, ' ');
+                            }
+                            if(key.indexOf('Name')>-1){
+                                spkName = spkName + ' ' + val.trim();
+                                if(key === 'lastName'){
+                                    col.set('name', val);
+                                    spkName = '';
+                                }
                             }
                             col.set(field.parseName || key, val);
                             break;
