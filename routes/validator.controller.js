@@ -9,6 +9,16 @@ var eventTracks = [];
 var tracksDict = [];
 var eventSpeakers = [];
 var speakersDict = [];
+var sessionTimes = {
+    "startTimes" : [],
+    "endTimes" : [],
+    "rowNum" : []
+};
+var eventTimes = {
+    "startTimes" : [],
+    "endTimes" : [],
+    "rowNum" : []
+};
 
 
 module.exports = {
@@ -49,6 +59,7 @@ module.exports = {
 
 
         //VALIDATE ALL ARRAYS
+        // GRAMMAR
         var results = checkGrammar();
         var sheetMessages = [];
         if (results.msg.length > 0) {
@@ -57,13 +68,37 @@ module.exports = {
         if (results.err) {
             hasError = true;
         }
-
         sheetObject['Grammar'] = sheetMessages;
+
+
+        //TIME
+        results = checkTime();
+        sheetMessages = [];
+        if (results.msg.length > 0) {
+            sheetMessages.push(results.msg);
+        }
+        if (results.err) {
+            hasError = true;
+        }
+        sheetObject['Time'] = sheetMessages;
+
+        //SESSION / EVENT
+
 
         eventTracks = [];
         tracksDict = [];
         eventSpeakers = [];
         speakersDict = [];
+        sessionTimes = {
+            "startTimes" : [],
+            "endTimes" : [],
+            "rowNum" : []
+        };
+        eventTimes = {
+            "startTimes" : [],
+            "endTimes" : [],
+            "rowNum" : []
+        };
 
         return {
             status: sheetObject,
@@ -125,8 +160,15 @@ function getData(masterKey, data, subschema, rowNum) {
     _.each(subschema, function (schemaVal, key) {
         //console.log(key);
         if (data[key]) {
-            if (masterKey === 'Session' && key === 'TrackSessionName') {
-                tracksDict.push(data[key]);
+            if (masterKey === 'Session') {
+                if (key === 'TrackSessionName') {
+                    tracksDict.push(data[key]);
+                } else if (key === 'StartTime'){
+                    sessionTimes.startTimes.push(data[key]);
+                } else if (key === 'EndTime'){
+                    sessionTimes.endTimes.push(data[key]);
+                    sessionTimes.rowNum.push(rowNum + 2);
+                }
             } else if (masterKey === 'Speaker' && key.indexOf('Name')>-1) {
                 name = name + ' ' + data[key].trim();
                 if(key === "lastName") {
@@ -138,6 +180,11 @@ function getData(masterKey, data, subschema, rowNum) {
                     eventTracks.push({"word": data[key], "rowNum": rowNum + 2});
                 } else if (key === 'Speakers') {
                     eventSpeakers.push({"word": data[key], "rowNum": rowNum + 2});
+                } else if (key === 'StartTime'){
+                    eventTimes.startTimes.push(data[key]);
+                } else if (key === 'EndTime'){
+                    eventTimes.endTimes.push(data[key]);
+                    eventTimes.rowNum.push(rowNum + 2);
                 }
             }
         }
@@ -145,6 +192,35 @@ function getData(masterKey, data, subschema, rowNum) {
 
 }
 
+function checkTime(){
+    var messageString = [];
+    var hasError = false;
+    var start, end;
+
+    for(var i = 0; i < eventTimes.startTimes.length ; i++){
+            start = new Date(eventTimes.startTimes[i]);
+            end = new Date(eventTimes.endTimes[i]);
+            if (end.getTime() < start.getTime()){
+                hasError = true;
+                messageString.push({"rowNum" : eventTimes.rowNum[i], "Sheet": "Event"});
+            }
+    }
+
+    for(i = 0; i < sessionTimes.startTimes.length ; i++){
+            start = new Date(sessionTimes.startTimes[i]);
+            end = new Date(sessionTimes.endTimes[i]);
+            if (end.getTime() < start.getTime()){
+                hasError = true;
+                messageString.push({"rowNum" : sessionTimes.rowNum[i], "Sheet": "Session"});
+            }
+    }
+
+    return {
+        msg: messageString,
+        err: hasError
+    };
+
+}
 
 function checkGrammar() {
 
