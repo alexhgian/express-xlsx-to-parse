@@ -84,6 +84,8 @@ exports.Schema = {
     },
     Sponsor : {
         collectionName : 'Sponsor',
+        primaryKey : 'key',
+        key: 'String',
         order: 'Number',
         name: 'String',
         sponsoring: {

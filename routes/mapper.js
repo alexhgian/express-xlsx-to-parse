@@ -305,6 +305,11 @@ exports.Mapper = function (Parse) {
                 newRow.key = newRow.businessName.trim() + ': ' +  conference.id;
             }
 
+            if(newRow.order && newRow.name && newRow.sponsoring){
+                newRow.key = newRow.name + ': ' + conference.id + ': ' + newRow.order;
+            }
+
+
 
             // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function (data) {
