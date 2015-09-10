@@ -297,8 +297,12 @@ exports.Mapper = function (Parse) {
             // Combined name or talk and startTime to generate unique key
             // used for Event issue with Openning Remarks and Closing Remarks
             if ((newRow.talk) && newRow.startTime) {
-                newRow.key = (newRow.talk).trim() + ': ' + (newRow.startTime).trim();
+                newRow.key = (newRow.talk).trim() + ': ' + (newRow.startTime).trim() + ': ' + conference.id;
                 //console.log('FN LS: ' + newRow.name);
+            }
+
+            if(newRow.businessName){
+                newRow.key = newRow.businessName.trim() + ': ' +  conference.id;
             }
 
 

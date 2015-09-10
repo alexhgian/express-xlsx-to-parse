@@ -94,6 +94,8 @@ exports.Schema = {
     },
     TravelBusiness: {
         collectionName : 'TravelBusiness',
+        primaryKey : 'key',
+        key: 'String',
         businessName: 'String',
         address: 'String',
         businessType: 'String',
