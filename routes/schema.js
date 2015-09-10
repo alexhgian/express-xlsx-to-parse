@@ -50,8 +50,6 @@ exports.Schema = {
     },
     Event : {
         collectionName : 'Event',
-        primaryKey : 'key',
-        key: 'String',
         talkIndividualEvents :{
             type : 'String',
             parseName : 'name'
@@ -72,8 +70,6 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
-        primaryKey : 'trackSessionName',
-        key : 'String', // A Combination of name + track use for search
         trackSessionName : {
             parseName : 'track',
             type : 'String'
