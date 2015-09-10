@@ -136,6 +136,9 @@ exports.Mapper = function (Parse) {
                                     val = 'http://' + val;
                                 }
                             }
+                            if(key === 'businessType'){
+                                val = val.toLowerCase();
+                            }
                             if(key.indexOf('Name')>-1){
                                 if(key === 'lastName'){
                                     spkName = spkName + val.trim();
@@ -151,6 +154,10 @@ exports.Mapper = function (Parse) {
                                     }
                                     sp += ' ' + spkN[0];
                                     col.set('name', sp.trim());
+                                    //HACK
+                                    if(spkN.length === 4){
+                                        col.set('name', spkN[3] + ' ' + spkN[0] + ' ' + spkN[1] + ' ' + spkN[2]);
+                                    }
                                 }
                                 if(key === 'middleName'){
                                     spkName = spkName.split(' ');
