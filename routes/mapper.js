@@ -290,7 +290,7 @@ exports.Mapper = function (Parse) {
 
             // Combined first and last name
             if (newRow.firstName && newRow.lastName) {
-                newRow.name = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim();
+                newRow.key = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim() + ' ' + conference.id;
                 //console.log('FN LS: ' + newRow.name);
             }
 

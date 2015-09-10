@@ -3,7 +3,8 @@
 exports.Schema = {
     Speaker : {
         collectionName : 'Attendee',
-        primaryKey : 'email',
+        primaryKey : 'key',
+        key: 'String',
         lastName : 'String',
         firstName : 'String',
         middleName : 'String',
@@ -27,7 +28,8 @@ exports.Schema = {
     },
     Attendee : {
         collectionName : 'Attendee',
-        primaryKey : 'email',
+        primaryKey : 'key',
+        key: 'String',
         lastName : 'String',
         firstName : 'String',
         middleName : 'String',
