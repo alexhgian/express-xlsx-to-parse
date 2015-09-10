@@ -17,11 +17,12 @@ exports.Mapper = function (Parse) {
             collect.id = val;
             return collect;
         },
-        find: function (searchQuery, val, collection, cb) {
+        find: function (searchQuery, val, collection, conference, cb) {
 
             var Collection = Parse.Object.extend(collection);
             var mainQuery = new Parse.Query(Collection);
             mainQuery.equalTo(searchQuery, val.trim());
+            mainQuery.equalTo('conference', conference);
 
             return mainQuery.find({
                 success: function (results) {
@@ -40,7 +41,7 @@ exports.Mapper = function (Parse) {
             });
 
         }
-    }
+    };
     /*********** Parse Util End ************/
 
     /*********** Mock Data      ************/
@@ -228,7 +229,7 @@ exports.Mapper = function (Parse) {
                      Pointer Date
                      **************************************/
                         case 'Pointer':
-                            var pPromise = ParseUtil.find(field.query || key, val, field.pointerTo, function (data, err) {
+                            var pPromise = ParseUtil.find(field.query || key, val, field.pointerTo, conference, function (data, err) {
                                 if (err) {
                                     return err;
                                 }
@@ -246,7 +247,7 @@ exports.Mapper = function (Parse) {
                         case 'Relation':
                             _.forEach(val.split(','), function (rVal, rKey) {
                                 rVal = rVal.trim();
-                                var sPromise = ParseUtil.find(field.query || "name", rVal, field.pointerTo, function (data, err) {
+                                var sPromise = ParseUtil.find(field.query || "name", rVal, field.pointerTo, conference, function (data, err) {
                                     if (err) {
                                         return err;
                                     }
