@@ -309,6 +309,10 @@ exports.Mapper = function (Parse) {
                 newRow.key = newRow.name + ': ' + conference.id + ': ' + newRow.order;
             }
 
+            if(newRow.moderator && newRow.trackSessionName){
+                newRow.key = newRow.trackSessionName + ' ' + conference.id;
+            }
+
 
 
             // Do work

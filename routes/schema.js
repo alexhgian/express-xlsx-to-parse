@@ -74,7 +74,8 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
-        primaryKey : 'startTime',
+        primaryKey : 'key',
+        key: 'String',
         trackSessionName : {
             parseName : 'track',
             type : 'String'
