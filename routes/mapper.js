@@ -309,11 +309,6 @@ exports.Mapper = function (Parse) {
                 newRow.key = newRow.name.trim() + ': ' + conference.id + ': ' + newRow.order.trim();
             }
 
-            if(newRow.moderator && newRow.trackSessionName){
-                newRow.key = conference.id + ' ' + newRow.startTime;
-            }
-
-
 
             // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function (data) {
