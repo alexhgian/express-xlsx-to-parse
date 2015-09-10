@@ -306,11 +306,11 @@ exports.Mapper = function (Parse) {
             }
 
             if(newRow.order && newRow.name && newRow.sponsoring){
-                newRow.key = newRow.name + ': ' + conference.id + ': ' + newRow.order;
+                newRow.key = newRow.name.trim() + ': ' + conference.id + ': ' + newRow.order.trim();
             }
 
             if(newRow.moderator && newRow.trackSessionName){
-                newRow.key = newRow.startTime + ' ' +  conference.id;
+                newRow.key = conference.id + ' ' + newRow.startTime;
             }
 
 
