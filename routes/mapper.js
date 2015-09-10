@@ -7,7 +7,6 @@ exports.Mapper = function (Parse) {
     // Assoicate Conference Id to all Rows
     var Conference = Parse.Object.extend("Conference");
     var conference = new Conference();
-    conference.id = 'yVEOkRMQ5w';
 
 
     /*********** Parse Util Begin ************/

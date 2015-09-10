@@ -83,6 +83,15 @@ module.exports = {
         sheetObject['Time'] = sheetMessages;
 
         //SESSION / EVENT
+        results = checkStructure();
+        sheetMessages = [];
+        if (results.msg.length > 0) {
+            sheetMessages.push(results.msg);
+        }
+        if (results.err) {
+            hasError = true;
+        }
+        sheetObject['Structure'] = sheetMessages;
 
 
         eventTracks = [];
@@ -189,6 +198,50 @@ function getData(masterKey, data, subschema, rowNum) {
             }
         }
     });
+
+}
+
+function checkStructure(){
+    var messageString = [];
+    var hasError = false;
+    var duplicates = [];
+
+    //Check Tracks Dict for duplicates
+    tracksDict.sort();
+    //Get Duplicates
+    for(var i = 0; i< tracksDict.length-1; i++){
+        if(tracksDict[i] === tracksDict[i+1]){
+            duplicates.push(tracksDict[i]);
+        }
+    }
+    //Remove duplicates on the duplicates
+    duplicates = eliminateDuplicates(duplicates);
+    //Check if referenced in Event Tracks
+    for(i = 0; i < duplicates.length; i++){
+        console.log(duplicates[i]);
+        for(var j = 0; j < tracksDict.length; j++){
+            if(eventTracks[j].word === duplicates[i]){
+                messageString.push({"word": duplicates[i], "rowNum": eventTracks[j].rowNum});
+                hasError = true;
+            }
+        }
+    }
+
+    return {
+        msg: messageString,
+        err: hasError
+    };
+
+    //http://stackoverflow.com/questions/840781/easiest-way-to-find-duplicate-values-in-a-javascript-array
+    function eliminateDuplicates(a) {
+        var temp = {};
+        for (var i = 0; i < a.length; i++)
+            temp[a[i]] = true;
+        var r = [];
+        for (var k in temp)
+            r.push(k);
+        return r;
+    }
 
 }
 

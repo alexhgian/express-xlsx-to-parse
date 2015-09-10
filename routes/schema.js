@@ -50,6 +50,7 @@ exports.Schema = {
     },
     Event : {
         collectionName : 'Event',
+        primaryKey : 'startTime',
         talkIndividualEvents :{
             type : 'String',
             parseName : 'name'
@@ -70,6 +71,7 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
+        primaryKey : 'startTime',
         trackSessionName : {
             parseName : 'track',
             type : 'String'
