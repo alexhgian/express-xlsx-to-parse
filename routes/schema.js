@@ -84,7 +84,6 @@ exports.Schema = {
     },
     Sponsor : {
         collectionName : 'Sponsor',
-        primaryKey: 'name',
         order: 'Number',
         name: 'String',
         sponsoring: {
@@ -95,7 +94,6 @@ exports.Schema = {
     },
     TravelBusiness: {
         collectionName : 'TravelBusiness',
-        primaryKey: 'businessName',
         businessName: 'String',
         address: 'String',
         businessType: 'String',
