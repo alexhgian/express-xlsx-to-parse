@@ -310,7 +310,7 @@ exports.Mapper = function (Parse) {
             }
 
             if(newRow.moderator && newRow.trackSessionName){
-                newRow.key = newRow.trackSessionName + ' ' + newRow.startTime + ' ' +  conference.id;
+                newRow.key = newRow.startTime + ' ' +  conference.id;
             }
 
 
