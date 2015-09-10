@@ -345,7 +345,7 @@ exports.Mapper = function (Parse) {
 
         //return Parse.Promise.when(promises);
     };
-}
+};
 
 function lowerFirst(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
