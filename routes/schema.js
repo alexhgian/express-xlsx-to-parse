@@ -72,7 +72,7 @@ exports.Schema = {
     },
     Session : {
         collectionName : 'Session',
-        primaryKey : 'key',
+        primaryKey : 'trackSessionName',
         key : 'String', // A Combination of name + track use for search
         trackSessionName : {
             parseName : 'track',
@@ -80,7 +80,7 @@ exports.Schema = {
         },
         startTime : 'Date',
         endTime : 'Date',
-        moderator : 'String' ,
+        moderator : 'String',
         location : 'String'
     },
     Sponsor : {
