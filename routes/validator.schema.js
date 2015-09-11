@@ -66,7 +66,7 @@ module.exports = {
         },
         Speakers: {
             type: String,
-            requiredLevel: 2
+            requiredLevel: 1
         }
     },
     Speaker: {
