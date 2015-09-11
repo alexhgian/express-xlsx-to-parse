@@ -6,6 +6,7 @@ var Schema = require('./validator.schema');
 
 //Array for Grammar Validation
 var eventTracks = [];
+var eventTalks = [];
 var tracksDict = [];
 var eventSpeakers = [];
 var speakersDict = [];
@@ -82,7 +83,7 @@ module.exports = {
         }
         sheetObject['Time'] = sheetMessages;
 
-        //SESSION / EVENT
+        //SESSION / EVENT - SESSION REFERENCES
         results = checkStructure();
         sheetMessages = [];
         if (results.msg.length > 0) {
@@ -93,11 +94,24 @@ module.exports = {
         }
         sheetObject['Structure'] = sheetMessages;
 
+        //SESSION / EVENT - TRACK AND TALK REFERENCES
+        results = checkTrackTalk();
+        sheetMessages = [];
+        if (results.msg.length > 0) {
+            sheetMessages.push(results.msg);
+        }
+        if (results.err) {
+            hasError = true;
+        }
+        sheetObject['Duplicate'] = sheetMessages;
+
+
 
         eventTracks = [];
         tracksDict = [];
         eventSpeakers = [];
         speakersDict = [];
+        eventTalks = [];
         sessionTimes = {
             "startTimes" : [],
             "endTimes" : [],
@@ -194,10 +208,31 @@ function getData(masterKey, data, subschema, rowNum) {
                 } else if (key === 'EndTime'){
                     eventTimes.endTimes.push(data[key]);
                     eventTimes.rowNum.push(rowNum + 2);
+                } else if(key === 'TalkIndividualEvents'){
+                    eventTalks.push({"word": data[key], "rowNum": rowNum + 2});
                 }
             }
         }
     });
+
+}
+
+function checkTrackTalk(){
+    var messageString = [];
+    var hasError = false;
+
+    for(var i = 0; i < eventTracks.length; i++){
+        if(eventTracks[i].word === eventTalks[i].word){
+            hasError = true;
+            messageString.push({"word": eventTalks[i].word, "rowNum": eventTracks[j].rowNum});
+        }
+    }
+
+
+    return {
+        msg: messageString,
+        err: hasError
+    };
 
 }
 
