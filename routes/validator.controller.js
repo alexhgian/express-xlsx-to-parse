@@ -225,7 +225,7 @@ function checkTrackTalk(){
     for(var i = 0; i < eventTracks.length; i++){
         if(eventTracks[i].word === eventTalks[i].word){
             hasError = true;
-            messageString.push({"word": eventTalks[i].word, "rowNum": eventTracks[j].rowNum});
+            messageString.push({"word": eventTalks[i].word, "rowNum": eventTracks[i].rowNum});
         }
     }
 
