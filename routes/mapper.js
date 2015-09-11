@@ -298,7 +298,7 @@ exports.Mapper = function (Parse) {
             // used for Event issue with Openning Remarks and Closing Remarks
             if ((newRow.talkIndividualEvents) && newRow.startTime) {
                 newRow.key = (newRow.talkIndividualEvents).trim() + ': ' + (newRow.startTime).trim() + ': ' +
-                    (newRow.endTime).trim() + ': ' + conference.id;
+                    (newRow.endTime).trim() + ': ' + newRow.trackSessionName + ': ' + conference.id;
                 //console.log('FN LS: ' + newRow.name);
             }
 
