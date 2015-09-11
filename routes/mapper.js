@@ -174,7 +174,7 @@ exports.Mapper = function (Parse) {
                                     spkName = '';
                                 }
                             }
-                            col.set(field.parseName || key, val);
+                            col.set(field.parseName || key, val.trim());
                             break;
                         case 'Number':
                             col.set(field.parseName || key, parseInt(val));
