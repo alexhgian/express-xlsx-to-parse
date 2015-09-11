@@ -174,15 +174,7 @@ exports.Mapper = function (Parse) {
                                     spkName = '';
                                 }
                             }
-                            if(key === 'talkIndividualEvents'){
-                                if(!val){
-                                    col.set(field.parseName || key, "test");
-                                } else{
-                                    col.set(field.parseName || key, val);
-                                }
-                            } else{
-                                col.set(field.parseName || key, val);
-                            }
+                            col.set(field.parseName || key, val);
                             break;
                         case 'Number':
                             col.set(field.parseName || key, parseInt(val));
