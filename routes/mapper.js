@@ -177,6 +177,8 @@ exports.Mapper = function (Parse) {
                             if(key === 'talkIndividualEvents'){
                                 if(!val){
                                     col.set(field.parseName || key, "test");
+                                } else{
+                                    col.set(field.parseName || key, val);
                                 }
                             } else{
                                 col.set(field.parseName || key, val);
