@@ -294,6 +294,10 @@ exports.Mapper = function (Parse) {
                 //console.log('FN LS: ' + newRow.name);
             }
 
+            if(newRow.trackSessionName && newRow.location && !newRow.talkIndividualEvents){
+                newRow.key = (newRow.startTime).trim() + ': ' + (newRow.endTime).trim() + ': ' + newRow.trackSessionName + ': ' + conference.id;
+            }
+
             // Combined name or talk and startTime to generate unique key
             // used for Event issue with Openning Remarks and Closing Remarks
             if ((newRow.talkIndividualEvents) && newRow.startTime) {
