@@ -130,13 +130,16 @@ router.post('/api/import', function (req, res, next) {
     Parse.Promise.when(wbPromises).then(function () {
         console.log("Saves Finished");
         console.log(">>>>>>>>>> Generating Discussion Boards...");
-        createDiscussionBoards(conference.id, function (error, data) {
-            if (error) {
-                res.sendStatus(400);
-            } else {
-                res.sendStatus(200);
-            }
-        });
+        if (type !== 'Attendee') {
+            createDiscussionBoards(conference.id, function (error, data) {
+                if (error) {
+                    res.sendStatus(400);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+
     }).fail(function () {
         console.log("One or more attempt to save has failed!");
         res.sendStatus(400);
@@ -189,7 +192,7 @@ function createDiscussionBoards(conId, cb) {
             },
             error: function (error) {
                 cb(true, error);
-            },
+            }
         });
     });
 }
