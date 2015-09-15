@@ -130,10 +130,10 @@ exports.Mapper = function (Parse) {
                                 val = val.replace(/[\u2022]+/g, '\n\u2022');
                             }
                             if (key === 'professionalTitle'){
-                                val = val.replace(/[\n]+/g, ' ');
+                                val = val.replace(/\r?\n|\r/g, ' ');
                             }
                             if (key === 'bio'){
-                                val = val.replace(/[\n]+/g, ' ');
+                                val = val.replace(/\r?\n|\r/g, ' ');
                             }
                             if (key === 'website' || key === 'Website'){
                                 if (val && (val.charAt(0)) !== 'h') {
