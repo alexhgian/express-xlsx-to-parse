@@ -138,8 +138,9 @@ router.post('/api/import', function (req, res, next) {
                     res.sendStatus(200);
                 }
             });
+        } else{
+            res.sendStatus(200);
         }
-
     }).fail(function () {
         console.log("One or more attempt to save has failed!");
         res.sendStatus(400);
