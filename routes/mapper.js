@@ -160,6 +160,9 @@ exports.Mapper = function (Parse) {
                                     sp += ' ' + spkN[0];
                                     col.set('name', sp.trim());
                                     //HACK
+                                    if(spkN.length === 3){
+                                        col.set('name', spkN[2] + ' ' + spkN[0] + ' ' + spkN[1]);
+                                    }
                                     if(spkN.length === 4){
                                         col.set('name', spkN[3] + ' ' + spkN[0] + ' ' + spkN[1] + ' ' + spkN[2]);
                                     }
