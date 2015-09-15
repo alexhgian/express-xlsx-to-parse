@@ -16,10 +16,11 @@ var Conference = Parse.Object.extend("Conference");
 var conference = new Conference();
 
 
-router.post('/api/import', function(req, res, next) {
+router.post('/api/import', function (req, res, next) {
     var list = [];
     var wbPromises = [];
     var file = req.files.file;
+    var type = req.body.import;
 
     if (!file) {
         return res.sendStatus(400);
@@ -35,7 +36,7 @@ router.post('/api/import', function(req, res, next) {
     var jsonSheet1 = XLSX.utils.sheet_to_json(worksheet1);
     // Check if Sheet is empty
     if (jsonSheet1.length > 0) {
-        var p1 = Mapper(conference, jsonSheet1, 'Attendee', function(data, err) {
+        var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
             if (err) {
                 return console.log("Error");
             }
@@ -45,98 +46,98 @@ router.post('/api/import', function(req, res, next) {
     }
 
 
+    if (type !== 'Attendee') {
+        var worksheet2 = workbook.Sheets['Speaker'];
+        var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
 
-    var worksheet2 = workbook.Sheets['Speaker'];
-    var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
-
-    // Check if Sheet is empty
-    if (jsonSheet2.length > 0) {
-        var p2 = Mapper(conference, jsonSheet2, 'Speaker', function(data, err) {
-            if (err) {
-                return console.log("Error");
-            }
-            console.log("Success Saved Speaker");
-        });
-        wbPromises.push(p2);
-    }
-
-    var worksheet3 = workbook.Sheets['Session'];
-    var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
-
-    // Check if Sheet is empty
-    if (jsonSheet3.length > 0) {
-        var p3 = Mapper(conference, jsonSheet3, 'Session', function(data, err) {
-            if (err) {
-                return console.log("Error");
-            }
-            console.log("Success Saved Session");
-        });
-        wbPromises.push(p3);
-    }
-
-    var worksheet4 = workbook.Sheets['Event'];
-    var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
-
-    // Check if Sheet is empty
-    if (jsonSheet4.length > 0) {
-        var p4 = new Parse.Promise();
-        Parse.Promise.when([p2, p3]).then(function() {
-            Mapper(conference, jsonSheet4, 'Event', function(data, err) {
+        // Check if Sheet is empty
+        if (jsonSheet2.length > 0) {
+            var p2 = Mapper(conference, jsonSheet2, 'Speaker', function (data, err) {
                 if (err) {
-                    p4.reject(err);
                     return console.log("Error");
                 }
-                p4.resolve(err);
-                console.log("Success Saved Event");
+                console.log("Success Saved Speaker");
             });
-        });
-        wbPromises.push(p4);
+            wbPromises.push(p2);
+        }
+
+        var worksheet3 = workbook.Sheets['Session'];
+        var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
+
+        // Check if Sheet is empty
+        if (jsonSheet3.length > 0) {
+            var p3 = Mapper(conference, jsonSheet3, 'Session', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Session");
+            });
+            wbPromises.push(p3);
+        }
+
+        var worksheet4 = workbook.Sheets['Event'];
+        var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
+
+        // Check if Sheet is empty
+        if (jsonSheet4.length > 0) {
+            var p4 = new Parse.Promise();
+            Parse.Promise.when([p2, p3]).then(function () {
+                Mapper(conference, jsonSheet4, 'Event', function (data, err) {
+                    if (err) {
+                        p4.reject(err);
+                        return console.log("Error");
+                    }
+                    p4.resolve(err);
+                    console.log("Success Saved Event");
+                });
+            });
+            wbPromises.push(p4);
+        }
+
+
+        var worksheet5 = workbook.Sheets['Sponsor'];
+        var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
+
+        // Check if Sheet is empty
+        if (jsonSheet5.length > 0) {
+            var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Sponsor");
+            });
+            wbPromises.push(p5);
+            // Collect the promises
+        }
+
+        var worksheet6 = workbook.Sheets['TravelBusiness'];
+        var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
+
+        // Check if Sheet is empty
+        if (jsonSheet6.length > 0) {
+            var p6 = Mapper(conference, jsonSheet6, 'TravelBusiness', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Sponsor");
+            });
+            wbPromises.push(p6);
+            // Collect the promises
+        }
     }
 
 
-    var worksheet5 = workbook.Sheets['Sponsor'];
-    var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
-
-    // Check if Sheet is empty
-    if (jsonSheet5.length > 0) {
-        var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function(data, err) {
-            if (err) {
-                return console.log("Error");
-            }
-            console.log("Success Saved Sponsor");
-        });
-        wbPromises.push(p5);
-        // Collect the promises
-    }
-
-    var worksheet6 = workbook.Sheets['TravelBusiness'];
-    var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
-
-    // Check if Sheet is empty
-    if (jsonSheet6.length > 0) {
-        var p6 = Mapper(conference, jsonSheet6, 'TravelBusiness', function(data, err) {
-            if (err) {
-                return console.log("Error");
-            }
-            console.log("Success Saved Sponsor");
-        });
-        wbPromises.push(p6);
-        // Collect the promises
-    }
-
-
-
-    Parse.Promise.when(wbPromises).then(function() {
+    Parse.Promise.when(wbPromises).then(function () {
         console.log("Saves Finished");
         console.log(">>>>>>>>>> Generating Discussion Boards...");
-        createDiscussionBoards(conference.id, function(error, data) {
+        createDiscussionBoards(conference.id, function (error, data) {
             if (error) {
                 res.sendStatus(400);
             } else {
                 res.sendStatus(200);
             }
         });
-    }).fail(function() {
+    }).fail(function () {
         console.log("One or more attempt to save has failed!");
         res.sendStatus(400);
     });
@@ -144,7 +145,7 @@ router.post('/api/import', function(req, res, next) {
 });
 
 // Placeholder just to show that its working
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     res.render('index', {
         title: 'File Upload'
     });
@@ -166,8 +167,8 @@ function createDiscussionBoards(conId, cb) {
     // Query for events that do not have discussion board.
     query.doesNotExist("board");
     var qPromise = query.find({
-        success: function(data) {
-            data.forEach(function(val, key) {
+        success: function (data) {
+            data.forEach(function (val, key) {
                 var Board = Parse.Object.extend("DiscussionBoard");
                 var board = new Board();
                 board.set('conference', con); // Add Conference pointer
@@ -180,13 +181,13 @@ function createDiscussionBoards(conId, cb) {
     });
 
     // Wait for promise to resolve
-    qPromise.then(function() {
+    qPromise.then(function () {
         Parse.Object.saveAll(list, {
-            success: function(data) {
+            success: function (data) {
                 console.log('Number of objects saved: ' + data.length);
                 cb(false, data);
             },
-            error: function(error) {
+            error: function (error) {
                 cb(true, error);
             },
         });
@@ -194,9 +195,8 @@ function createDiscussionBoards(conId, cb) {
 }
 
 
-
 var Validator = require('./validator.controller');
-router.post('/api/validate', function(req, res, next) {
+router.post('/api/validate', function (req, res, next) {
     var file = req.files.file;
     if (!file) {
         return res.sendStatus(400);
@@ -205,7 +205,7 @@ router.post('/api/validate', function(req, res, next) {
 
 
     var workbookObj = {};
-    _.each(workbook.Sheets, function(val, key) {
+    _.each(workbook.Sheets, function (val, key) {
         var jsonSheet = XLSX.utils.sheet_to_json(val);
         if (jsonSheet.length > 0) {
             workbookObj[key] = jsonSheet;
