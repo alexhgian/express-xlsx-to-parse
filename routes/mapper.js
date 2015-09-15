@@ -144,7 +144,7 @@ exports.Mapper = function (Parse) {
                                 val = val.toLowerCase();
                             }
                             if(key.indexOf('Name')>-1){
-                                val = val.capitalize();
+                                val = val.trim().capitalize();
                                 if(key === 'lastName'){
                                     spkName = spkName + val.trim();
 
