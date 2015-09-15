@@ -2,6 +2,10 @@
 var Schema = require('./schema').Schema;
 var _ = require('underscore');
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 exports.Mapper = function (Parse) {
     var Undupe = require('./undupe').Undupe(Parse);
     // Assoicate Conference Id to all Rows
@@ -140,6 +144,7 @@ exports.Mapper = function (Parse) {
                                 val = val.toLowerCase();
                             }
                             if(key.indexOf('Name')>-1){
+                                val = val.trim().capitalize();
                                 if(key === 'lastName'){
                                     spkName = spkName + val.trim();
 
