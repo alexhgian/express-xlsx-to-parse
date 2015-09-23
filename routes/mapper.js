@@ -131,11 +131,6 @@ exports.Mapper = function (Parse) {
                             }
                             if(key === 'reservationAndRates'){
                                 val = val.replace(/\r?\n|\r/g, ' ');
-                                val = val.replace(/  +/g, ' ');
-                                val = val.replace(/a.m./g, 'am');
-                                val = val.replace(/p.m./g, 'pm');
-                                val = val.replace(/[\.]+/g, '.\n\n');
-                                val = val.replace(/[\u2022]+/g, '\n\u2022');
                             }
                             if (key === 'professionalTitle'){
                                 val = val.replace(/\r?\n|\r/g, ' ');
