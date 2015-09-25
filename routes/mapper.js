@@ -135,9 +135,6 @@ exports.Mapper = function (Parse) {
                             if (key === 'professionalTitle'){
                                 val = val.replace(/\r?\n|\r/g, ' ');
                             }
-                            if (key === 'bio'){
-                                val = val.replace(/\r?\n|\r/g, ' ');
-                            }
                             if (key === 'website' || key === 'Website'){
                                 if (val && (val.charAt(0)) !== 'h') {
                                     val = 'http://' + val;
