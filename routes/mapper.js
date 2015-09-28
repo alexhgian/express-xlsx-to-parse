@@ -1,6 +1,7 @@
 'use strict';
 var Schema = require('./schema').Schema;
 var _ = require('underscore');
+var uuid = require('node-uuid');
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -298,7 +299,7 @@ exports.Mapper = function (Parse) {
 
             // Combined first and last name
             if (newRow.firstName && newRow.lastName) {
-                newRow.key = (newRow.firstName).trim() + ' ' + (newRow.lastName).trim() + ' ' + conference.id;
+                newRow.key = uuid.v4();
                 //console.log('FN LS: ' + newRow.name);
             }
 
