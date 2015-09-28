@@ -304,23 +304,22 @@ exports.Mapper = function (Parse) {
             }
 
             if(newRow.trackSessionName && newRow.location && !newRow.talkIndividualEvents){
-                newRow.key = (newRow.startTime).trim() + ': ' + (newRow.endTime).trim() + ': ' + newRow.trackSessionName + ': ' + conference.id;
+                newRow.key = uuid.v4();
             }
 
             // Combined name or talk and startTime to generate unique key
             // used for Event issue with Openning Remarks and Closing Remarks
             if ((newRow.talkIndividualEvents) && newRow.startTime) {
-                newRow.key = (newRow.talkIndividualEvents).trim() + ': ' + (newRow.startTime).trim() + ': ' +
-                    (newRow.endTime).trim() + ': ' + newRow.trackSessionName + ': ' + conference.id;
+                newRow.key = uuid.v4();
                 //console.log('FN LS: ' + newRow.name);
             }
 
             if(newRow.businessName){
-                newRow.key = newRow.businessName.trim() + ': ' +  conference.id;
+                newRow.key = uuid.v4();
             }
 
             if(newRow.order && newRow.name && newRow.sponsoring){
-                newRow.key = newRow.name.trim() + ': ' + conference.id + ': ' + newRow.order.trim();
+                newRow.key = uuid.v4();
             }
 
 
