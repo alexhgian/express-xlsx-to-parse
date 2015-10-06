@@ -137,7 +137,7 @@ router.post('/api/import', function (req, res, next) {
                     res.sendStatus(200);
                 }
             });
-            populateEventRelationsInSpeakers(function (error) {
+            populateEventRelationsInSpeakers(function (error, data) {
                 if (error) {
                     res.sendStatus(400);
                 } else {
@@ -231,7 +231,7 @@ function populateEventRelationsInSpeakers(cb) {
             console.log("Error: " + error.code + " " + error.message);
         }
     }).then(function () {
-        queryEvent.find({
+        return queryEvent.find({
             success: function (results) {
                 console.log("Successfully retrieved " + results.length + " events.");
                 eventList = results;
@@ -250,24 +250,22 @@ function populateEventRelationsInSpeakers(cb) {
                             speakerList[index].relation("event").add(e);
                         }
                     });
+                    Parse.Object.saveAll(speakerList, {
+                        success: function (data) {
+                            console.log('Number of objects saved: ' + data.length);
+                            cb(false, data);
+                        },
+                        error: function (error) {
+                            cb(true, error);
+                        }
+                    });
                 },
                 error: function (error) {
                     console.log("Error: " + error.code + " " + error.message);
                 }
-            })
-        })
-    }).then(function () {
-        Parse.Object.saveAll(speakerList, {
-            success: function (data) {
-                console.log('Number of objects saved: ' + data.length);
-                cb(false, data);
-            },
-            error: function (error) {
-                cb(true, error);
-            }
+            });
         });
     });
-
 
 }
 
