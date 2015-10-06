@@ -247,7 +247,7 @@ function populateEventRelationsInSpeakers(cb) {
                     _.each(res, function (r) {
                         var index = speakerList.indexOf(r.id);
                         if (index > -1) {
-                            speakerList[index].relation("events").add(e);
+                            speakerList[index].relation("event").add(e);
                         }
                     });
                 },
