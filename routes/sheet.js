@@ -134,6 +134,7 @@ router.post('/api/import', function (req, res, next) {
                 if (error) {
                     res.sendStatus(400);
                 } else {
+                    console.log(">>>>>>>>>> Generating Relations...");
                     populateEventRelationsInSpeakers(function (error, data) {
                         if (error) {
                             res.sendStatus(400);
@@ -247,15 +248,7 @@ function populateEventRelationsInSpeakers(cb) {
                         var index = speakerList.indexOf(r.id);
                         if (index > -1) {
                             speakerList[index].relation("event").add(e);
-                        }
-                    });
-                    Parse.Object.saveAll(speakerList, {
-                        success: function (data) {
-                            console.log('Number of objects saved: ' + data.length);
-                            cb(false, data);
-                        },
-                        error: function (error) {
-                            cb(true, error);
+                            speakerList[index].save();
                         }
                     });
                 },
