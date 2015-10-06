@@ -211,9 +211,10 @@ function createDiscussionBoards(conId, cb) {
 function populateEventRelationsInSpeakers(cb) {
 
     //query speakers
-    var Speaker = Parse.Object.extend("Speaker");
+    var Speaker = Parse.Object.extend("Attendee");
     var querySpeaker = new Parse.Query(Speaker);
     querySpeaker.equalTo('conference', conference);
+    querySpeaker.equalTo('isSpeaker', true);
     var speakerList = [];
 
     //query events speaker relations
@@ -245,10 +246,12 @@ function populateEventRelationsInSpeakers(cb) {
             e.relation("speakers").query().find({
                 success: function (res) {
                     _.each(res, function (r) {
-                        var index = speakerList.indexOf(r.id);
-                        if (index > -1) {
-                            speakerList[index].relation("event").add(e);
-                            speakerList[index].save();
+                        for(var index = 0; index < speakerList.length; i++){
+                            if(r.id === speakerList[index].id){
+                                speakerList[index].relation("event").add(e);
+                                speakerList[index].save();
+                                break;
+                            }
                         }
                     });
                 },
