@@ -134,14 +134,13 @@ router.post('/api/import', function (req, res, next) {
                 if (error) {
                     res.sendStatus(400);
                 } else {
-                    res.sendStatus(200);
-                }
-            });
-            populateEventRelationsInSpeakers(function (error, data) {
-                if (error) {
-                    res.sendStatus(400);
-                } else {
-                    res.sendStatus(200);
+                    populateEventRelationsInSpeakers(function (error, data) {
+                        if (error) {
+                            res.sendStatus(400);
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
                 }
             });
         } else {
