@@ -249,7 +249,7 @@ function populateEventRelationsInSpeakers(cb) {
                 success: function (res) {
                     console.log("Successfully retrieved " + res + " events speakers.");
                     _.each(res, function (r) {
-                        for(var index = 0; index < speakerList.length; i++){
+                        for(var index = 0; index < speakerList.length; index++){
                             if(r.id === speakerList[index].id){
                                 speakerList[index].relation("event").add(e);
                                 speakerList[index].save();
