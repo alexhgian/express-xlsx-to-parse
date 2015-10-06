@@ -263,7 +263,7 @@ function populateEventRelationsInSpeakers(cb) {
                 }
             });
         });
-        cb(false, data);
+        cb(false, {});
     });
 
 }
