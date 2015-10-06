@@ -137,7 +137,14 @@ router.post('/api/import', function (req, res, next) {
                     res.sendStatus(200);
                 }
             });
-        } else{
+            populateEventRelationsInSpeakers(function (error) {
+                if (error) {
+                    res.sendStatus(400);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        } else {
             res.sendStatus(200);
         }
     }).fail(function () {
@@ -195,6 +202,73 @@ function createDiscussionBoards(conId, cb) {
             }
         });
     });
+}
+
+/**
+ * Creates Event Relation Speaker - (Event)
+ */
+
+function populateEventRelationsInSpeakers(cb) {
+
+    //query speakers
+    var Speaker = Parse.Object.extend("Speaker");
+    var querySpeaker = new Parse.Query(Speaker);
+    querySpeaker.equalTo('conference', conference);
+    var speakerList = [];
+
+    //query events speaker relations
+    var Event = Parse.Object.extend("Event");
+    var queryEvent = new Parse.Query(Event);
+    queryEvent.equalTo('conference', conference);
+    var eventList = [];
+
+    querySpeaker.find({
+        success: function (results) {
+            console.log("Successfully retrieved " + results.length + " speakers.");
+            speakerList = results;
+        },
+        error: function (error) {
+            console.log("Error: " + error.code + " " + error.message);
+        }
+    }).then(function () {
+        queryEvent.find({
+            success: function (results) {
+                console.log("Successfully retrieved " + results.length + " events.");
+                eventList = results;
+            },
+            error: function (error) {
+                console.log("Error: " + error.code + " " + error.message);
+            }
+        });
+    }).then(function () {
+        _.each(eventList, function (e) {
+            e.relation("speakers").query().find({
+                success: function (res) {
+                    _.each(res, function (r) {
+                        var index = speakerList.indexOf(r.id);
+                        if (index > -1) {
+                            speakerList[index].relation("events").add(e);
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log("Error: " + error.code + " " + error.message);
+                }
+            })
+        })
+    }).then(function () {
+        Parse.Object.saveAll(speakerList, {
+            success: function (data) {
+                console.log('Number of objects saved: ' + data.length);
+                cb(false, data);
+            },
+            error: function (error) {
+                cb(true, error);
+            }
+        });
+    });
+
+
 }
 
 

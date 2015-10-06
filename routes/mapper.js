@@ -296,32 +296,7 @@ exports.Mapper = function (Parse) {
                 return lowerFirst(val);
             });
             var newRow = _.invert(tmpInvObj);
-
-            // Combined first and last name
-            if (newRow.firstName && newRow.lastName) {
-                newRow.key = uuid.v4();
-                //console.log('FN LS: ' + newRow.name);
-            }
-
-            if(newRow.trackSessionName && newRow.location && !newRow.talkIndividualEvents){
-                newRow.key = uuid.v4();
-            }
-
-            // Combined name or talk and startTime to generate unique key
-            // used for Event issue with Openning Remarks and Closing Remarks
-            if ((newRow.talkIndividualEvents) && newRow.startTime) {
-                newRow.key = uuid.v4();
-                //console.log('FN LS: ' + newRow.name);
-            }
-
-            if(newRow.businessName){
-                newRow.key = uuid.v4();
-            }
-
-            if(newRow.order && newRow.name && newRow.sponsoring){
-                newRow.key = uuid.v4();
-            }
-
+            newRow.key = uuid.v4();
 
             // Do work
             var promise = CollectionMapper2(conference, newRow, Schema[sheetName], function (data) {
