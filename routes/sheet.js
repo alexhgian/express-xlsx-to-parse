@@ -205,7 +205,7 @@ function createDiscussionBoards(conId, cb) {
 }
 
 /**
- * Creates Event Relation Speaker - (Event)
+ * Creates Event Relation Attendee - (Event)
  */
 
 function populateEventRelationsInSpeakers(cb) {
@@ -230,6 +230,7 @@ function populateEventRelationsInSpeakers(cb) {
         },
         error: function (error) {
             console.log("Error: " + error.code + " " + error.message);
+            cb(true, error);
         }
     }).then(function () {
         return queryEvent.find({
@@ -239,6 +240,7 @@ function populateEventRelationsInSpeakers(cb) {
             },
             error: function (error) {
                 console.log("Error: " + error.code + " " + error.message);
+                cb(true, error);
             }
         });
     }).then(function () {
@@ -257,9 +259,11 @@ function populateEventRelationsInSpeakers(cb) {
                 },
                 error: function (error) {
                     console.log("Error: " + error.code + " " + error.message);
+                    cb(true, error);
                 }
             });
         });
+        cb(false, data);
     });
 
 }
