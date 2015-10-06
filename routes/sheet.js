@@ -134,10 +134,17 @@ router.post('/api/import', function (req, res, next) {
                 if (error) {
                     res.sendStatus(400);
                 } else {
-                    res.sendStatus(200);
+                    console.log(">>>>>>>>>> Generating Relations...");
+                    populateEventRelationsInSpeakers(function (error, data) {
+                        if (error) {
+                            res.sendStatus(400);
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
                 }
             });
-        } else{
+        } else {
             res.sendStatus(200);
         }
     }).fail(function () {
@@ -195,6 +202,72 @@ function createDiscussionBoards(conId, cb) {
             }
         });
     });
+}
+
+/**
+ * Creates Event Relation Attendee - (Event)
+ */
+
+function populateEventRelationsInSpeakers(cb) {
+
+    //query speakers
+    var Speaker = Parse.Object.extend("Attendee");
+    var querySpeaker = new Parse.Query(Speaker);
+    querySpeaker.equalTo('conference', conference);
+    querySpeaker.equalTo('isSpeaker', true);
+    var speakerList = [];
+
+    //query events speaker relations
+    var Event = Parse.Object.extend("Event");
+    var queryEvent = new Parse.Query(Event);
+    queryEvent.equalTo('conference', conference);
+    var eventList = [];
+
+    querySpeaker.find({
+        success: function (results) {
+            console.log("Successfully retrieved " + results.length + " speakers.");
+            speakerList = results;
+        },
+        error: function (error) {
+            console.log("Error: " + error.code + " " + error.message);
+            cb(true, error);
+        }
+    }).then(function () {
+        return queryEvent.find({
+            success: function (results) {
+                console.log("Successfully retrieved " + results.length + " events.");
+                eventList = results;
+            },
+            error: function (error) {
+                console.log("Error: " + error.code + " " + error.message);
+                cb(true, error);
+            }
+        });
+    }).then(function () {
+        _.each(eventList, function (e) {
+            e.relation("speakers").query().find({
+                success: function (res) {
+                    console.log("Successfully retrieved " + res + " events speakers.");
+                    _.each(res, function (r) {
+                        for(var index = 0; index < speakerList.length; index++){
+                            if(r.id === speakerList[index].id){
+                                speakerList[index].relation("event").add(e);
+                                speakerList[index].save();
+                                console.log('saved');
+                                break;
+                            }
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log("Error: " + error.code + " " + error.message);
+                    cb(true, error);
+                }
+            });
+        });
+        cb(false, {});
+    });
+
 }
 
 
