@@ -33,21 +33,29 @@ router.post('/api/import', function (req, res, next) {
 
     var worksheet1 = workbook.Sheets['Attendee'];
     var jsonSheet1 = XLSX.utils.sheet_to_json(worksheet1);
+    var worksheet2 = workbook.Sheets['Speaker'];
+    var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
+    var worksheet3 = workbook.Sheets['Session'];
+    var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
+    var worksheet4 = workbook.Sheets['Event'];
+    var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
+    var worksheet5 = workbook.Sheets['Sponsor'];
+    var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
+    var worksheet6 = workbook.Sheets['TravelBusiness'];
+    var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
+
     // Check if Sheet is empty
-    if (jsonSheet1.length > 0) {
-        var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
-            if (err) {
-                return console.log("Error");
-            }
-            console.log("Success Saved Attednee");
-        });
-        wbPromises.push(p1);
-    }
-
-
-    if (type !== 'Attendee') {
-        var worksheet2 = workbook.Sheets['Speaker'];
-        var jsonSheet2 = XLSX.utils.sheet_to_json(worksheet2);
+    if(type === 'Attendee'){
+        if (jsonSheet1.length > 0) {
+            var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Attednee");
+            });
+            wbPromises.push(p1);
+        }
+    } else if(type === 'Speaker'){
 
         // Check if Sheet is empty
         if (jsonSheet2.length > 0) {
@@ -60,8 +68,42 @@ router.post('/api/import', function (req, res, next) {
             wbPromises.push(p2);
         }
 
-        var worksheet3 = workbook.Sheets['Session'];
-        var jsonSheet3 = XLSX.utils.sheet_to_json(worksheet3);
+    } else if(type === 'Sponsor'){
+
+        // Check if Sheet is empty
+        if (jsonSheet5.length > 0) {
+            var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Sponsor");
+            });
+            wbPromises.push(p5);
+            // Collect the promises
+        }
+
+    }  else {
+
+        if (jsonSheet1.length > 0) {
+            var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Attednee");
+            });
+            wbPromises.push(p1);
+        }
+
+        // Check if Sheet is empty
+        if (jsonSheet2.length > 0) {
+            var p2 = Mapper(conference, jsonSheet2, 'Speaker', function (data, err) {
+                if (err) {
+                    return console.log("Error");
+                }
+                console.log("Success Saved Speaker");
+            });
+            wbPromises.push(p2);
+        }
 
         // Check if Sheet is empty
         if (jsonSheet3.length > 0) {
@@ -73,9 +115,6 @@ router.post('/api/import', function (req, res, next) {
             });
             wbPromises.push(p3);
         }
-
-        var worksheet4 = workbook.Sheets['Event'];
-        var jsonSheet4 = XLSX.utils.sheet_to_json(worksheet4);
 
         // Check if Sheet is empty
         if (jsonSheet4.length > 0) {
@@ -93,10 +132,6 @@ router.post('/api/import', function (req, res, next) {
             wbPromises.push(p4);
         }
 
-
-        var worksheet5 = workbook.Sheets['Sponsor'];
-        var jsonSheet5 = XLSX.utils.sheet_to_json(worksheet5);
-
         // Check if Sheet is empty
         if (jsonSheet5.length > 0) {
             var p5 = Mapper(conference, jsonSheet5, 'Sponsor', function (data, err) {
@@ -108,9 +143,6 @@ router.post('/api/import', function (req, res, next) {
             wbPromises.push(p5);
             // Collect the promises
         }
-
-        var worksheet6 = workbook.Sheets['TravelBusiness'];
-        var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
 
         // Check if Sheet is empty
         if (jsonSheet6.length > 0) {
@@ -129,7 +161,7 @@ router.post('/api/import', function (req, res, next) {
     Parse.Promise.when(wbPromises).then(function () {
         console.log("Saves Finished");
         console.log(">>>>>>>>>> Generating Discussion Boards...");
-        if (type !== 'Attendee') {
+        if (type === 'All Sheets') {
             createDiscussionBoards(conference.id, function (error, data) {
                 if (error) {
                     res.sendStatus(400);
