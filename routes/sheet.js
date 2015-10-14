@@ -45,7 +45,7 @@ router.post('/api/import', function (req, res, next) {
     var jsonSheet6 = XLSX.utils.sheet_to_json(worksheet6);
 
     // Check if Sheet is empty
-    if(type === 'Attendee'){
+    if (type === 'Attendee') {
         if (jsonSheet1.length > 0) {
             var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
                 if (err) {
@@ -55,7 +55,7 @@ router.post('/api/import', function (req, res, next) {
             });
             wbPromises.push(p1);
         }
-    } else if(type === 'Speaker'){
+    } else if (type === 'Speaker') {
 
         // Check if Sheet is empty
         if (jsonSheet2.length > 0) {
@@ -68,7 +68,7 @@ router.post('/api/import', function (req, res, next) {
             wbPromises.push(p2);
         }
 
-    } else if(type === 'Sponsor'){
+    } else if (type === 'Sponsor') {
 
         // Check if Sheet is empty
         if (jsonSheet5.length > 0) {
@@ -82,7 +82,7 @@ router.post('/api/import', function (req, res, next) {
             // Collect the promises
         }
 
-    }  else {
+    } else {
 
         if (jsonSheet1.length > 0) {
             var p1 = Mapper(conference, jsonSheet1, 'Attendee', function (data, err) {
@@ -150,7 +150,7 @@ router.post('/api/import', function (req, res, next) {
                 if (err) {
                     return console.log("Error");
                 }
-                console.log("Success Saved Sponsor");
+                console.log("Success Saved TravelBusiness");
             });
             wbPromises.push(p6);
             // Collect the promises
@@ -174,6 +174,15 @@ router.post('/api/import', function (req, res, next) {
                             res.sendStatus(200);
                         }
                     });
+                }
+            });
+        } else if (type === 'Speaker') {
+            console.log(">>>>>>>>>> Generating Relations...");
+            populateEventRelationsInSpeakers(function (error, data) {
+                if (error) {
+                    res.sendStatus(400);
+                } else {
+                    res.sendStatus(200);
                 }
             });
         } else {
@@ -281,8 +290,8 @@ function populateEventRelationsInSpeakers(cb) {
                 success: function (res) {
                     console.log("Successfully retrieved " + res + " events speakers.");
                     _.each(res, function (r) {
-                        for(var index = 0; index < speakerList.length; index++){
-                            if(r.id === speakerList[index].id){
+                        for (var index = 0; index < speakerList.length; index++) {
+                            if (r.id === speakerList[index].id) {
                                 speakerList[index].relation("event").add(e);
                                 speakerList[index].save();
                                 console.log('saved');
