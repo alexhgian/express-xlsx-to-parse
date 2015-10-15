@@ -176,15 +176,6 @@ router.post('/api/import', function (req, res, next) {
                     });
                 }
             });
-        } else if (type === 'Speaker') {
-            console.log(">>>>>>>>>> Generating Relations...");
-            populateEventRelationsInSpeakers(function (error, data) {
-                if (error) {
-                    res.sendStatus(400);
-                } else {
-                    res.sendStatus(200);
-                }
-            });
         } else {
             res.sendStatus(200);
         }
