@@ -68,33 +68,6 @@ router.post('/api/import', function (req, res, next) {
             wbPromises.push(p2);
         }
 
-
-        if (jsonSheet3.length > 0) {
-            var p3 = Mapper(conference, jsonSheet3, 'Session', function (data, err) {
-                if (err) {
-                    return console.log("Error");
-                }
-                console.log("Success Saved Session");
-            });
-            wbPromises.push(p3);
-        }
-
-        // Check if Sheet is empty
-        if (jsonSheet4.length > 0) {
-            var p4 = new Parse.Promise();
-            Parse.Promise.when([p2, p3]).then(function () {
-                Mapper(conference, jsonSheet4, 'Event', function (data, err) {
-                    if (err) {
-                        p4.reject(err);
-                        return console.log("Error");
-                    }
-                    p4.resolve(err);
-                    console.log("Success Saved Event");
-                });
-            });
-            wbPromises.push(p4);
-        }
-
     } else if (type === 'Sponsor') {
 
         // Check if Sheet is empty
