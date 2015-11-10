@@ -2,7 +2,7 @@
 
 exports.Schema = {
     Speaker : {
-        collectionName : 'Attendee',
+        collectionName : 'Speaker',
         primaryKey : 'key',
         key: 'String',
         lastName : 'String',

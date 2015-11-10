@@ -122,6 +122,7 @@ exports.Mapper = function (Parse) {
                     switch (field.type || field) {
                         // String and Number
                         case 'String':
+                            //Handle Field Formats
                             if (key === 'otherDetails') {
                                 val = val.replace(/\r?\n|\r/g, ' ');
                                 val = val.replace(/  +/g, ' ');
@@ -347,3 +348,4 @@ exports.Mapper = function (Parse) {
 function lowerFirst(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
+

@@ -237,16 +237,15 @@ function createDiscussionBoards(conId, cb) {
 }
 
 /**
- * Creates Event Relation Attendee - (Event)
+ * Creates Event Relation Speaker - (Event)
  */
 
 function populateEventRelationsInSpeakers(cb) {
 
     //query speakers
-    var Speaker = Parse.Object.extend("Attendee");
+    var Speaker = Parse.Object.extend("Speaker");
     var querySpeaker = new Parse.Query(Speaker);
     querySpeaker.equalTo('conference', conference);
-    querySpeaker.equalTo('isSpeaker', true);
     var speakerList = [];
 
     //query events speaker relations
