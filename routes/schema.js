@@ -19,12 +19,7 @@ exports.Schema = {
             parseName : 'title' // the actual parse db name
         },
         organization: 'String',
-        location: 'String',
-        isSpeaker : {
-            type : 'Boolean',
-            default: true
-        },
-        isContactable : 'Boolean'
+        location: 'String'
     },
     Attendee : {
         collectionName : 'Attendee',
@@ -42,13 +37,11 @@ exports.Schema = {
             type : 'String',
             parseName : 'title'
         },
-        organization : 'String',
-        location: 'String',
-        isSpeaker : {
-            type : 'Boolean',
-            default: false
+        organization : {
+            parseName : 'job',
+            type : 'String'
         },
-        isContactable : 'Boolean'
+        location: 'String'
     },
     Event : {
         collectionName : 'Event',
@@ -68,7 +61,7 @@ exports.Schema = {
         endTime : 'Date',
         speakers : {
             type : 'Relation',
-            pointerTo : 'Attendee',
+            pointerTo : 'Speaker',
             query : 'name'
         }
     },

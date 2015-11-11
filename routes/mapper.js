@@ -3,9 +3,23 @@ var Schema = require('./schema').Schema;
 var _ = require('underscore');
 var uuid = require('node-uuid');
 
+/**
+ * Helper Functions
+ *
+ */
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
+
+function lowerFirst(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+/**
+ * The Mapper
+ *
+ */
 
 exports.Mapper = function (Parse) {
     var Undupe = require('./undupe').Undupe(Parse);
@@ -48,31 +62,6 @@ exports.Mapper = function (Parse) {
         }
     };
     /*********** Parse Util End ************/
-
-    /*********** Mock Data      ************/
-    var xlsxData = {
-        Speaker: [{
-            'Name': 'Deepak Chopra',
-            'Email': 'Deepak@Chopra.com',
-            'Title': 'MDPHDDDRABC',
-            'Bio': 'Cool guy',
-            'IsContactable': 'yes',
-            'Organization': 'Scripps',
-            'Experience': 'CEOing',
-            'Image': '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg'
-        }],
-        Event: [{
-            'name': 'Wellness Matters',
-            'speakers': 'Deepak Chopra, Gary Conkright,Richard J. Boxer',
-            'description': 'Being Well in the 33rd century',
-            'slideName': '2eb01cc0-8ebb-451f-855a-52008979a5de/tfss-4f405416-a80b-41a9-bbec-f468a6141666-cat1.jpeg',
-            'conference': 'x9e1mtYnwH',
-            'Track': 'Morning Session I',
-            'date': '10/17/1991',
-            'startTime': '9:59 AM',
-            'endTime': '10:59 AM'
-        }]
-    };
 
     var CollectionMapper2 = function (conference, rowData, schema, callback) {
         var cb = callback || _.noop; // Optional Callback
@@ -122,7 +111,7 @@ exports.Mapper = function (Parse) {
                     switch (field.type || field) {
                         // String and Number
                         case 'String':
-                            //Handle Field Formats
+                            //Handle Data Exceptions
                             if (key === 'otherDetails') {
                                 val = val.replace(/\r?\n|\r/g, ' ');
                                 val = val.replace(/  +/g, ' ');
@@ -307,28 +296,6 @@ exports.Mapper = function (Parse) {
         });
 
         return Parse.Promise.when(promises).then(function (data) {
-
-            // var tmp = Parse.Object.saveAll(list, {
-            //     success: function(data) {
-            //         console.log('     >> '+ sheetName+ ' Objects [' + data.length + '] saved!');
-            //         // Execute any logic that should take place after the object is saved.
-            //
-            //         // // console.log('Objects [' + data.length + '] saved!');
-            //         //res.json(data);
-            //         //// // console.log(data);
-            //         cb(data, false);
-            //     },
-            //     error: function(data, error) {
-            //         // Execute any logic that should take place if the save fails.
-            //         // error is a Parse.Error with an error code and message.
-            //         console.log('Failed to create new object, with error code: ');
-            //         console.log(data);
-            //         cb(data, error);
-            //
-            //     }
-            // });
-            //
-            // return tmp;
             console.log('     > before saving: ' + Schema[sheetName].primaryKey + ' for ' + sheetName);
             return Undupe.saveWithoutDupe(list, Schema[sheetName].primaryKey).then(function (data) {
                 console.log('     >> ' + sheetName + ' Objects [' + data.length + '] saved!');
@@ -340,12 +307,8 @@ exports.Mapper = function (Parse) {
             });
 
         });
-
-        //return Parse.Promise.when(promises);
     };
 };
 
-function lowerFirst(string) {
-    return string.charAt(0).toLowerCase() + string.slice(1);
-}
+
 

@@ -25,7 +25,7 @@ router.post('/api/import', function (req, res, next) {
         return res.sendStatus(400);
     }
 
-    conference.id = req.body.conference || 'yVEOkRMQ5w';
+    conference.id = req.body.conference;
     console.log("ConId" + conference.id);
 
     var workbook = XLSX.readFile(file.path);
@@ -300,6 +300,15 @@ function populateEventRelationsInSpeakers(cb) {
     });
 
 }
+/**
+ * TODO:Create Tupperware
+ */
+
+/**
+ * TODO:Create User Accounts from Attendee List
+ */
+
+
 
 
 var Validator = require('./validator.controller');
