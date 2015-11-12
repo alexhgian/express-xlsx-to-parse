@@ -300,33 +300,6 @@ function populateEventRelationsInSpeakers(cb) {
     });
 
 }
-/**
- * TODO:Create Tupperware (file containers)
- */
-
-/**
- * TODO:Create User Accounts from Attendee List
- *
- *  1. Add Account to conference list
- *  2. Add Conference to Account
- *
- */
-
-function createUserAccounts(cb){
-
-    var Attendee = Parse.Object.extend("Attendee");
-    var queryAttendee = new Parse.Query(Attendee);
-    queryAttendee.equalTo('conference', conference);
-    var attendeeList = [];
-
-    var User = Parse.Object.extend(Parse.User);
-    var queryUser = new Parse.Query(User);
-    var userList = [];
-
-    //Get Attendee and User, and signup if there are no duplicates
-    queryAttendee.find()
-
-}
 
 
 
