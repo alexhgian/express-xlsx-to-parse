@@ -18,10 +18,7 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        IsContactable: {
-            type: String,
-            requiredLevel: 2
-        },
+        IsContactable: String,
         Organization: String,
         Location: String
     },
@@ -87,10 +84,7 @@ module.exports = {
             type: String,
             requiredLevel: 2
         },
-        IsContactable: {
-            type: String,
-            requiredLevel: 2
-        },
+        IsContactable: String,
         Bio: {
             type: String,
             requiredLevel: 1
