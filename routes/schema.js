@@ -28,20 +28,7 @@ exports.Schema = {
         lastName : 'String',
         firstName : 'String',
         middleName : 'String',
-        email : 'String',
-        professionalTitle : {
-            parseName : 'job',
-            type : 'String'
-        },
-        degree: {
-            type : 'String',
-            parseName : 'title'
-        },
-        organization : {
-            parseName : 'job',
-            type : 'String'
-        },
-        location: 'String'
+        email : 'String'
     },
     Event : {
         collectionName : 'Event',
